@@ -44,7 +44,7 @@ const title = computed(() => {
 });
 
 const placeholder = computed(() => {
-  return !sessionId.value ? '例如：sara@web-tech-tw.github.io' : '例如：12345678';
+  return !sessionId.value ? '例如：sara@web-tech.tw' : '例如：12345678';
 });
 
 const description = computed(() => {
