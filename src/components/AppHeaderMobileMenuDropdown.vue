@@ -66,7 +66,7 @@ const props = defineProps({
   },
   children: {
     type: Array,
-    require: true,
+    required: true,
   }
 });
 </script>

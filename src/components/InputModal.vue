@@ -5,16 +5,7 @@
         v-model="content"
         :disabled="props.loading"
         :placeholder="props.placeholder"
-        class="
-          w-full
-          border-none
-          bg-transparent
-          px-4
-          py-1
-          text-gray-900
-          outline-none
-          focus:outline-none
-        "
+        class="w-full border-none bg-transparent px-4 py-1 text-gray-900 outline-none focus:outline-none"
         type="text"
         @keydown.enter="submit"
       >
@@ -23,20 +14,16 @@
         :disabled="props.loading"
         @click="submit"
       >
-        <svg
-          class="mt-1 h-6 w-6"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
+        <img
+          v-if="props.loading"
+          :src="LoadingCircle"
+          class="h-6 w-6 my-1 animate-spin"
         >
-          <path
-            d="M13 9l3 3m0 0l-3 3m3-3H8m13 0a9 9 0 11-18 0 9 9 0 0118 0z"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+        <img
+          v-else
+          :src="NextCircle"
+          class="h-6 w-6 my-1"
+        >
       </button>
     </div>
     <p class="text-base mt-2">
@@ -47,6 +34,9 @@
 
 <script setup>
 import { ref, defineProps, defineEmits } from 'vue';
+
+import NextCircle from '../assets/NextCircle.svg';
+import LoadingCircle from '../assets/LoadingCircle.svg';
 
 const props = defineProps({
   placeholder: {

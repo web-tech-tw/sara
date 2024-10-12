@@ -12,7 +12,7 @@
 const props = defineProps({
   name: {
     type: String,
-    require: true,
+    required: true,
   },
 });
 </script>

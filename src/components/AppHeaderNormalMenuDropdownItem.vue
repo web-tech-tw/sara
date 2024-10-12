@@ -21,15 +21,15 @@ import DynamicHeroIcon from "./DynamicHeroIcon.vue"
 const props = defineProps({
   name: {
     type: String,
-    require: true,
+    required: true,
   },
   description: {
     type: String,
-    require: true,
+    required: true,
   },
   icon: {
     type: String,
-    require: true,
+    required: true,
   }
 });
 </script>

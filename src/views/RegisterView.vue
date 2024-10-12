@@ -44,7 +44,10 @@ import { exitApplication } from '../utils.js';
 import InputModal from '../components/InputModal.vue';
 
 const props = defineProps({
-  email: String,
+  email: {
+    type: String,
+    required: true,
+  },
 });
 
 const isLoading = ref(false);
@@ -74,7 +77,7 @@ const cancel = () => {
   }
 };
 
-const submit = (value) => {
+const submit = async (value) => {
   if (!value) {
     statusMessage.value = '請輸入資料';
     return;
@@ -83,9 +86,9 @@ const submit = (value) => {
   statusMessage.value = '';
   isLoading.value = true;
   if (!sessionId.value) {
-    doRequest(value);
+    await doRequest(value);
   } else {
-    verifyRequest(value);
+    await verifyRequest(value);
   }
   isLoading.value = false;
 };
