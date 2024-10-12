@@ -7,12 +7,12 @@
         :placeholder="props.placeholder"
         class="w-full border-none bg-transparent px-4 py-1 text-gray-900 outline-none focus:outline-none"
         type="text"
-        @keydown.enter="submit"
+        @keydown.enter="onSubmit"
       >
       <button
         class="m-2 rounded px-4 py-2 font-semibold"
         :disabled="props.loading"
-        @click="submit"
+        @click="onSubmit"
       >
         <img
           v-if="props.loading"
@@ -33,8 +33,6 @@
 </template>
 
 <script setup>
-import { ref, defineProps, defineEmits } from 'vue';
-
 import NextCircle from '../assets/NextCircle.svg';
 import LoadingCircle from '../assets/LoadingCircle.svg';
 
@@ -53,12 +51,13 @@ const props = defineProps({
   },
 });
 
-const content = ref('');
+const content = defineModel({
+  type: String,
+});
 
-const emit = defineEmits(['input', 'submit']);
+const emits = defineEmits(['submit']);
 
-const submit = () => {
-  emit('submit', content.value);
-  content.value = '';
+const onSubmit = () => {
+  emits('submit', content.value);
 };
 </script>
