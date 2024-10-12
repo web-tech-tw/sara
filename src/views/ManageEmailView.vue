@@ -2,12 +2,20 @@
   <div class="flex justify-center my-8 py-16">
     <div class="flex flex-col">
       <label class="input-label text-base mb-2">{{ title }}</label>
-      <p class="input-label text-base mb-2 text-red-600">{{ statusMessage }}</p>
-      <input-modal :loading="isLoading" :placeholder="placeholder" :description="description" @submit="submit" />
+      <p class="input-label text-base mb-2 text-red-600">
+        {{ statusMessage }}
+      </p>
+      <input-modal
+        :loading="isLoading"
+        :placeholder="placeholder"
+        :description="description"
+        @submit="submit"
+      />
     </div>
   </div>
   <div class="flex justify-center mt-5">
-    <button class="
+    <button
+      class="
         bg-white-500
         shadow-md
         text-sm text-black
@@ -18,7 +26,9 @@
         hover:bg-slate-100
         rounded
         mr-3
-      " @click="cancel">
+      "
+      @click="cancel"
+    >
       取消
     </button>
   </div>

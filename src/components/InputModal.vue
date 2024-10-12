@@ -17,11 +17,11 @@
         "
         type="text"
         @keydown.enter="submit"
-      />
+      >
       <button
         class="m-2 rounded px-4 py-2 font-semibold"
-        @click="submit"
         :disabled="props.loading"
+        @click="submit"
       >
         <svg
           class="mt-1 h-6 w-6"
