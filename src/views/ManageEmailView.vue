@@ -45,6 +45,7 @@ import InputModal from '../components/InputModal.vue';
 
 const isLoading = ref(false);
 const statusMessage = ref('');
+const currentMail = ref('');
 const sessionId = ref('');
 const content = ref('');
 
@@ -60,7 +61,7 @@ const placeholder = computed(() => {
 });
 
 const description = computed(() => {
-  return !sessionId.value ? '' : '請於您的新的電子郵件信箱收取轉移代碼。';
+  return !sessionId.value ? '' : `請於您的電子郵件信箱 ${currentMail.value} 收取轉移代碼。`;
 });
 
 const cancel = () => {
@@ -97,6 +98,7 @@ const doRequest = async (value) => {
     const result = await response.json();
     if (result?.session_id) {
       sessionId.value = result.session_id;
+      currentMail.value = content.value;
       content.value = '';
     } else {
       statusMessage.value = '發生錯誤 (無錯誤代碼)';
@@ -117,7 +119,6 @@ const verifyRequest = async (value) => {
       }
     });
     statusMessage.value = '修改成功，正在寫入憑證...';
-    content.value = '';
     setTimeout(() => router.replace('/manage'), 500);
   } catch (e) {
     const errorCode = e?.response?.status || '無錯誤代碼';

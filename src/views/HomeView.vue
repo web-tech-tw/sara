@@ -27,6 +27,7 @@ import InputModal from '../components/InputModal.vue';
 
 const isLoading = ref(false);
 const statusMessage = ref('');
+const currentMail = ref('');
 const sessionId = ref('');
 const content = ref('');
 
@@ -42,7 +43,7 @@ const placeholder = computed(() => {
 });
 
 const description = computed(() => {
-  return !sessionId.value ? '' : '請於您的電子郵件信箱收取登入代碼。';
+  return !sessionId.value ? '' : `請於您的電子郵件信箱 ${currentMail.value} 收取登入代碼。`;
 });
 
 const onSubmit = async (value) => {
@@ -71,6 +72,7 @@ const doRequest = async (value) => {
     const result = await response.json();
     if (result?.session_id) {
       sessionId.value = result.session_id;
+      currentMail.value = content.value;
       content.value = '';
     } else {
       statusMessage.value = '發生錯誤 (無錯誤代碼)';
@@ -96,7 +98,6 @@ const verifyRequest = async (value) => {
       }
     });
     statusMessage.value = '登入成功，正在寫入憑證...';
-    content.value = '';
     exitApplication();
   } catch (e) {
     const errorCode = e?.response?.status || '無錯誤代碼';
