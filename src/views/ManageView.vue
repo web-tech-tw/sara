@@ -124,7 +124,9 @@ const showRoles = computed(() => {
 
 const update = async () => {
   await client.put('users/me', {
-    nickname: field.value.nickname,
+    json: {
+      nickname: field.value.nickname,
+    }
   });
   setTimeout(() => location.reload(), 500);
 };
