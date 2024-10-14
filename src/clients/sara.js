@@ -19,7 +19,7 @@ const refreshSaraToken = (_request, _options, response) => {
     const tokenValue = response.headers.get('x-sara-refresh');
     if (!tokenValue) return;
 
-    const [saraToken, guardToken] = token.split("|", 2);
+    const [saraToken, guardToken] = tokenValue.split("|", 2);
     if (!saraToken || !guardToken) return;
     
     localStorage.setItem(saraTokenName, saraToken);
