@@ -2,25 +2,36 @@ import ky from "ky"
 
 const {
     VITE_SARA_RECV_HOST: baseUrl,
-    VITE_SARA_TOKEN_NAME: tokenName,
+    VITE_SARA_TOKEN_NAME: saraTokenName,
+    VITE_SARA_GUARD_NAME: saraGuardName,
 } = import.meta.env;
 
 const useSaraToken = (request) => {
-    const tokenValue = localStorage.getItem(tokenName);
-    if (!tokenValue) return;
-    request.headers.set('authorization', `SARA ${tokenValue}`);
+    const saraToken = localStorage.getItem(saraTokenName);
+    const guardToken = localStorage.getItem(saraGuardName);
+    if (!saraToken || !guardToken) return;
+
+    const tokenValue = [saraToken, guardToken].join("|");
+    request.headers.set('authorization', `XARA ${tokenValue}`);
 };
 
-const renewSaraToken = (_request, _options, response) => {
-    const tokenValue = response.headers.get('sara-issue');
+const refreshSaraToken = (_request, _options, response) => {
+    const tokenValue = response.headers.get('x-sara-refresh');
     if (!tokenValue) return;
-    localStorage.setItem(tokenName, tokenValue);
+
+    const [saraToken, guardToken] = token.split("|", 2);
+    if (!saraToken || !guardToken) return;
+    
+    localStorage.setItem(saraTokenName, saraToken);
+    localStorage.setItem(saraGuardName, guardToken);
 };
 
 const revokeSaraToken = (_request, _options, response) => {
     const tokenStatus = response.status;
     if (tokenStatus !== 401) return;
-    localStorage.removeItem(tokenName);
+
+    localStorage.removeItem(saraTokenName);
+    localStorage.removeItem(saraGuardName);
 };
 
 const client = ky.create({
@@ -30,7 +41,7 @@ const client = ky.create({
             useSaraToken,
         ],
         afterResponse: [
-            renewSaraToken,
+            refreshSaraToken,
             revokeSaraToken,
         ],
     }
