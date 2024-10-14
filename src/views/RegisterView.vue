@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-center my-8 py-16">
-    <div class="flex flex-col">
+    <div class="flex flex-col mx-5">
       <label class="input-label text-base mb-2">{{ title }}</label>
       <p class="input-label text-base mb-2 text-red-600">
         {{ statusMessage }}
