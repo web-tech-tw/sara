@@ -22,6 +22,15 @@
       取消
     </button>
   </div>
+  <div
+    v-if="isShowSessionData"
+    class="text-center text-slate-700 mt-5 text-sm"
+  >
+    <div>申請時間：{{ sessionTm || "未知" }}</div>
+    <div>申請識別碼：{{ sessionId || "未知" }}</div>
+    <div>申請來源裝置：{{ sessionUa || "未知" }}</div>
+    <div>申請來源 IP 位址：{{ sessionIp || "未知" }}</div>
+  </div>
   <toast-modal v-model="statusMessage" />
 </template>
 
@@ -46,6 +55,9 @@ const isLoading = ref(false);
 const statusMessage = ref('');
 const currentMail = ref('');
 const sessionId = ref('');
+const sessionUa = ref('');
+const sessionIp = ref('');
+const sessionTm = ref('');
 const content = ref('');
 
 const router = useRouter();
@@ -69,6 +81,10 @@ const inputType = computed(() => {
 
 const emptyWarning = computed(() => {
   return !sessionId.value ? '請輸入暱稱' : '請輸入註冊代碼';
+});
+
+const isShowSessionData = computed(() => {
+  return !!sessionId.value;
 });
 
 const onClickCancel = () => {
@@ -107,6 +123,9 @@ const doRequest = async (value) => {
     const result = await response.json();
     if (result?.session_id) {
       sessionId.value = result.session_id;
+      sessionUa.value = result.session_ua;
+      sessionIp.value = result.session_ip;
+      sessionTm.value = result.session_tm;
       currentMail.value = content.value;
       content.value = '';
     } else {
