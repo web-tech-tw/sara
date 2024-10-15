@@ -15,19 +15,8 @@
   </div>
   <div class="flex justify-center mt-5">
     <button
-      class="
-        bg-white-500
-        shadow-md
-        text-sm text-black
-        font-bold
-        py-3
-        md:px-8
-        px-4
-        hover:bg-slate-100
-        rounded
-        mr-3
-      "
-      @click="cancel"
+      class="flex items-center space-x-2 bg-white-500 shadow-md text-sm text-black font-bold py-3 md:px-8 px-4 hover:bg-slate-100 rounded mr-3"
+      @click="onClickCancel"
     >
       取消
     </button>
@@ -65,7 +54,7 @@ const description = computed(() => {
   return !sessionId.value ? '' : `請於您的電子郵件信箱 ${currentMail.value} 收取轉移代碼。`;
 });
 
-const cancel = () => {
+const onClickCancel = () => {
   if (window.history.length) {
     router.back();
   } else {

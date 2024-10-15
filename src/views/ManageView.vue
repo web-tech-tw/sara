@@ -6,7 +6,7 @@
     >
       <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
         <div
-          v-if="!edit"
+          v-if="!isEdit"
           class="overflow-hidden shadow-md"
         >
           <div class="px-6 py-4 bg-white border-b border-gray-200 font-bold">
@@ -20,19 +20,19 @@
           <div class="p-6 bg-white border-b border-gray-200 text-right">
             <button
               class="bg-amber-500 shadow-md text-sm text-white font-bold py-3 md:px-8 px-4 hover:bg-amber-600 rounded mr-3"
-              @click="logout"
+              @click="onClickLogout"
             >
               登出
             </button>
             <button
               class="bg-red-500 shadow-md text-sm text-white font-bold py-3 md:px-8 px-4 hover:bg-red-600 rounded mr-3"
-              @click="logout"
+              @click="onClickDelete"
             >
               刪除帳號
             </button>
             <button
               class="bg-sky-500 shadow-md text-sm text-white font-bold py-3 md:px-8 px-4 hover:bg-sky-600 rounded"
-              @click="edit = true"
+              @click="onClickEdit"
             >
               修改個人資料
             </button>
@@ -87,13 +87,13 @@
           <div class="p-6 bg-white border-gray-200 text-right">
             <button
               class="bg-sky-500 shadow-md text-sm text-white font-bold py-3 md:px-8 px-4 hover:bg-sky-600 rounded mr-3"
-              @click="update"
+              @click="onSubmitEdit"
             >
               確定修改
             </button>
             <button
               class="bg-white-500 shadow-md text-sm text-black font-bold py-3 md:px-8 px-4 hover:bg-slate-100 rounded"
-              @click="edit = false"
+              @click="onClickCancelEdit"
             >
               取消
             </button>
@@ -105,6 +105,7 @@
       {{ profile === null ? "載入中..." : "發生錯誤" }}
     </div>
   </div>
+  <toast-modal v-model="statusMessage" />
 </template>
 
 <script setup>
@@ -112,11 +113,14 @@ import { ref, computed, onMounted } from 'vue';
 
 import { useClient } from '../clients/sara.js';
 
+import ToastModal from '../components/ToastModal.vue';
+
 const {
   VITE_INDEX_INTE_HOST: indexInteHost,
 } = import.meta.env;
 
-const edit = ref(false);
+const statusMessage = ref('');
+const isEdit = ref(false);
 const field = ref({
   nickname: '',
 });
@@ -128,18 +132,33 @@ const showRoles = computed(() => {
   return Array.isArray(profile.value?.roles) && profile.value.roles.length;
 });
 
-const update = async () => {
+const onClickLogout = () => {
+  localStorage.clear();
+  location.assign(indexInteHost);
+};
+
+const onClickDelete = () => {
+  statusMessage.value = "尚未實作";
+};
+
+const onClickEdit = () => {
+  isEdit.value = true;
+};
+
+const onClickCancelEdit = () => {
+  isEdit.value = false;
+};
+
+const onSubmitEdit = async () => {
   await client.put('users/me', {
     json: {
       nickname: field.value.nickname,
     }
   });
-  setTimeout(() => location.reload(), 500);
-};
-
-const logout = () => {
-  localStorage.clear();
-  location.assign(indexInteHost);
+  statusMessage.value = "修改成功";
+  setTimeout(() => {
+    location.reload();
+  }, 1300);
 };
 
 onMounted(async () => {

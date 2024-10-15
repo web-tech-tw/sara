@@ -13,12 +13,27 @@
       />
     </div>
   </div>
+  <div class="flex justify-center mt-5">
+    <button
+      class="flex items-center space-x-2 bg-white-500 shadow-md text-sm text-black font-bold py-3 md:px-8 px-4 hover:bg-slate-100 rounded mr-3"
+      @click="onClickPasskey"
+    >
+      <span>
+        <finger-print-icon class="h-5 w-5" />
+      </span>
+      <span class="font-bold">
+        Passkey
+      </span>
+    </button>
+  </div>
   <toast-modal v-model="statusMessage" />
 </template>
 
 <script setup>
 import { ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
+
+import { FingerPrintIcon } from "@heroicons/vue/24/solid"
 
 import { useClient } from '../clients/sara.js';
 import { exitApplication } from '../utils.js';
@@ -46,6 +61,10 @@ const placeholder = computed(() => {
 const description = computed(() => {
   return !sessionId.value ? '' : `請於您的電子郵件信箱 ${currentMail.value} 收取登入代碼。`;
 });
+
+const onClickPasskey = () => {
+  statusMessage.value = "尚未實作";
+};
 
 const onSubmit = async (value) => {
   if (!value) {

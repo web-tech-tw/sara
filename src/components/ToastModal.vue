@@ -6,9 +6,12 @@
     @click="onClickClose"
   >
     <div class="flex items-center space-x-2">
-      <p class="font-bold">
+      <span>
+        <information-circle-icon class="h-5 w-5" />
+      </span>
+      <span class="font-bold">
         {{ model }}
-      </p>
+      </span>
     </div>
   </button>
 </template>
@@ -16,13 +19,15 @@
 <script setup>
 import {watch} from "vue";
 
+import { InformationCircleIcon } from "@heroicons/vue/24/solid"
+
 let timer;
 
 const model = defineModel({
   type: String,
 });
 
-function onClickClose() {
+const onClickClose = () => {
   if (timer) {
     clearTimeout(timer);
   }
