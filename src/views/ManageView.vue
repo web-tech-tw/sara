@@ -38,7 +38,7 @@
             </button>
           </div>
           <div
-            v-if="showRoles"
+            v-if="isShowRoles"
             class="p-6 bg-white border-b border-gray-200"
           >
             <span class="text-gray-600">持有權限：</span>
@@ -128,7 +128,7 @@ const profile = ref(null);
 
 const client = useClient();
 
-const showRoles = computed(() => {
+const isShowRoles = computed(() => {
   return Array.isArray(profile.value?.roles) && profile.value.roles.length;
 });
 

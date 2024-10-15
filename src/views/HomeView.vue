@@ -111,6 +111,7 @@ const doRequest = async (value) => {
     if (result?.session_id) {
       sessionId.value = result.session_id;
       currentMail.value = content.value;
+      inputHistory.value = '';
       content.value = '';
     } else {
       statusMessage.value = '發生錯誤 (無錯誤代碼)';
