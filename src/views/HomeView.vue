@@ -10,12 +10,14 @@
         :placeholder="placeholder"
         :description="description"
         :input-type="inputType"
+        :input-history="inputHistory"
         @submit="onSubmit"
       />
     </div>
   </div>
   <div class="flex justify-center mt-5">
     <button
+      v-if="isShowKeypass"
       class="flex items-center space-x-2 bg-white-500 shadow-md text-sm text-black font-bold py-3 md:px-8 px-4 hover:bg-slate-100 rounded mr-3"
       @click="onClickPasskey"
     >
@@ -31,7 +33,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { FingerPrintIcon } from "@heroicons/vue/24/solid"
@@ -42,7 +44,10 @@ import { exitApplication } from '../utils.js';
 import InputModal from '../components/InputModal.vue';
 import ToastModal from '../components/ToastModal.vue';
 
+const inputHistoryKey = 'saraInputHistoryLogin';
+
 const isLoading = ref(false);
+const inputHistory = ref('');
 const statusMessage = ref('');
 const currentMail = ref('');
 const sessionId = ref('');
@@ -69,6 +74,10 @@ const inputType = computed(() => {
 
 const emptyWarning = computed(() => {
   return !sessionId.value ? '請輸入電子郵件地址' : '請輸入登入代碼';
+});
+
+const isShowKeypass = computed(() => {
+  return !sessionId.value;
 });
 
 const onClickPasskey = () => {
@@ -127,6 +136,7 @@ const verifyRequest = async (value) => {
       }
     });
     statusMessage.value = '登入成功，正在寫入憑證...';
+    localStorage.setItem(inputHistoryKey, currentMail.value);
     exitApplication();
   } catch (e) {
     const errorCode = e?.response?.status || '無錯誤代碼';
@@ -134,4 +144,8 @@ const verifyRequest = async (value) => {
     console.error(e.message);
   }
 };
+
+onMounted(() => {
+  inputHistory.value = localStorage.getItem(inputHistoryKey);
+});
 </script>
