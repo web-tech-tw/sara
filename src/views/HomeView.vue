@@ -1,10 +1,9 @@
 <template>
   <div class="flex justify-center my-8 py-16">
     <div class="flex flex-col mx-5">
-      <label class="input-label text-base mb-2">{{ title }}</label>
-      <p class="input-label text-base mb-2 text-red-600">
-        {{ statusMessage }}
-      </p>
+      <label class="input-label text-base mb-2">
+        {{ title }}
+      </label>
       <input-modal
         v-model="content"
         :loading="isLoading"
@@ -14,6 +13,7 @@
       />
     </div>
   </div>
+  <toast-modal v-model="statusMessage" />
 </template>
 
 <script setup>
@@ -24,6 +24,7 @@ import { useClient } from '../clients/sara.js';
 import { exitApplication } from '../utils.js';
 
 import InputModal from '../components/InputModal.vue';
+import ToastModal from '../components/ToastModal.vue';
 
 const isLoading = ref(false);
 const statusMessage = ref('');

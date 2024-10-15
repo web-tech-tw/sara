@@ -1,10 +1,9 @@
 <template>
   <div class="flex justify-center my-8 py-16">
     <div class="flex flex-col mx-5">
-      <label class="input-label text-base mb-2">{{ title }}</label>
-      <p class="input-label text-base mb-2 text-red-600">
-        {{ statusMessage }}
-      </p>
+      <label class="input-label text-base mb-2">
+        {{ title }}
+      </label>
       <input-modal
         v-model="content"
         :loading="isLoading"
@@ -33,6 +32,7 @@
       取消
     </button>
   </div>
+  <toast-modal v-model="statusMessage" />
 </template>
 
 <script setup>
