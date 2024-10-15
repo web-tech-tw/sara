@@ -137,7 +137,7 @@ const isShowRoles = computed(() => {
 const onClickLogout = () => {
   localStorage.removeItem(saraTokenName);
   localStorage.removeItem(saraGuardName);
-  location.assign(indexInteHost);
+  location.replace(indexInteHost);
 };
 
 const onClickDelete = () => {
