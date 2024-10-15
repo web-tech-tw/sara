@@ -19,16 +19,16 @@
           </div>
           <div class="p-6 bg-white border-b border-gray-200 text-right">
             <button
-              class="bg-sky-500 shadow-md text-sm text-white font-bold py-3 md:px-8 px-4 hover:bg-sky-600 rounded mr-3"
-              @click="edit = true"
-            >
-              修改個人資料
-            </button>
-            <button
-              class="bg-amber-500 shadow-md text-sm text-white font-bold py-3 md:px-8 px-4 hover:bg-amber-600 rounded"
+              class="bg-amber-500 shadow-md text-sm text-white font-bold py-3 md:px-8 px-4 hover:bg-amber-600 rounded mr-3"
               @click="logout"
             >
               登出
+            </button>
+            <button
+              class="bg-sky-500 shadow-md text-sm text-white font-bold py-3 md:px-8 px-4 hover:bg-sky-600 rounded"
+              @click="edit = true"
+            >
+              修改個人資料
             </button>
           </div>
           <div
@@ -80,16 +80,22 @@
           </div>
           <div class="p-6 bg-white border-gray-200 text-right">
             <button
-              class="bg-white-500 shadow-md text-sm text-black font-bold py-3 md:px-8 px-4 hover:bg-slate-100 rounded mr-3"
-              @click="edit = false"
-            >
-              取消
-            </button>
-            <button
-              class="bg-sky-500 shadow-md text-sm text-white font-bold py-3 md:px-8 px-4 hover:bg-sky-600 rounded"
+              class="bg-sky-500 shadow-md text-sm text-white font-bold py-3 md:px-8 px-4 hover:bg-sky-600 rounded mr-3"
               @click="update"
             >
               確定修改
+            </button>
+            <button
+              class="bg-red-500 shadow-md text-sm text-white font-bold py-3 md:px-8 px-4 hover:bg-red-600 rounded mr-3"
+              @click="logout"
+            >
+              刪除帳號
+            </button>
+            <button
+              class="bg-white-500 shadow-md text-sm text-black font-bold py-3 md:px-8 px-4 hover:bg-slate-100 rounded"
+              @click="edit = false"
+            >
+              取消
             </button>
           </div>
         </div>
