@@ -67,13 +67,17 @@ const inputType = computed(() => {
   return !sessionId.value ? 'email' : 'text';
 });
 
+const emptyWarning = computed(() => {
+  return !sessionId.value ? '請輸入電子郵件地址' : '請輸入登入代碼';
+});
+
 const onClickPasskey = () => {
   statusMessage.value = "尚未實作";
 };
 
 const onSubmit = async (value) => {
   if (!value) {
-    statusMessage.value = '請輸入資料';
+    statusMessage.value = emptyWarning.value;
     return;
   }
 

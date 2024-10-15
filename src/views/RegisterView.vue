@@ -67,6 +67,10 @@ const inputType = computed(() => {
   return !sessionId.value ? 'email' : 'text';
 });
 
+const emptyWarning = computed(() => {
+  return !sessionId.value ? '請輸入暱稱' : '請輸入註冊代碼';
+});
+
 const onClickCancel = () => {
   if (window.history.length) {
     router.back();
@@ -77,7 +81,7 @@ const onClickCancel = () => {
 
 const onSubmit = async (value) => {
   if (!value) {
-    statusMessage.value = '請輸入資料';
+    statusMessage.value = emptyWarning.value;
     return;
   }
 

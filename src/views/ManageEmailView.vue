@@ -52,11 +52,15 @@ const placeholder = computed(() => {
 });
 
 const description = computed(() => {
-  return !sessionId.value ? '' : `請於您的電子郵件信箱 ${currentMail.value} 收取轉移代碼。`;
+  return !sessionId.value ? '' : `請於新的電子郵件信箱 ${currentMail.value} 收取轉移代碼。`;
 });
 
 const inputType = computed(() => {
   return !sessionId.value ? 'email' : 'text';
+});
+
+const emptyWarning = computed(() => {
+  return !sessionId.value ? '請輸入電子郵件地址' : '請輸入轉移代碼';
 });
 
 const onClickCancel = () => {
@@ -69,7 +73,7 @@ const onClickCancel = () => {
 
 const onSubmit = async (value) => {
   if (!value) {
-    statusMessage.value = '請輸入資料';
+    statusMessage.value = emptyWarning.value;
     return;
   }
 
