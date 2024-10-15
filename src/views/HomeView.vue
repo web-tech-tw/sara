@@ -40,12 +40,12 @@
       @click="onClickClearHistory"
     >
       <span class="font-bold">
-        移除登入記錄
+        清除登入記錄
       </span>
     </button>
   </div>
   <div
-    v-if="isShowSessionData"
+    v-if="isShowSessionDetails"
     class="text-center text-slate-700 mt-5 text-sm"
   >
     <div>申請時間：{{ sessionTm || "未知" }}</div>
@@ -111,7 +111,7 @@ const isShowClearHistory = computed(() => {
   return !sessionId.value && !!inputHistory.value;
 });
 
-const isShowSessionData = computed(() => {
+const isShowSessionDetails = computed(() => {
   return !!sessionId.value;
 });
 

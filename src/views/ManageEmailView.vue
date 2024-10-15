@@ -23,7 +23,7 @@
     </button>
   </div>
   <div
-    v-if="isShowSessionData"
+    v-if="isShowSessionDetails"
     class="text-center text-slate-700 mt-5 text-sm"
   >
     <div>申請時間：{{ sessionTm || "未知" }}</div>
@@ -75,7 +75,7 @@ const emptyWarning = computed(() => {
   return !sessionId.value ? '請輸入電子郵件地址' : '請輸入轉移代碼';
 });
 
-const isShowSessionData = computed(() => {
+const isShowSessionDetails = computed(() => {
   return !!sessionId.value;
 });
 
