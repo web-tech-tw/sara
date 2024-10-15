@@ -6,7 +6,7 @@
         :disabled="props.loading"
         :placeholder="props.placeholder"
         class="w-full border-none bg-transparent px-4 py-1 text-gray-900 outline-none focus:outline-none"
-        type="text"
+        :type="inputType"
         @keydown.enter="onSubmit"
       >
       <button
@@ -48,6 +48,11 @@ const props = defineProps({
   description: {
     type: String,
     required: true,
+  },
+  inputType: {
+    type: String,
+    required: false,
+    default: () => "text",
   },
 });
 

@@ -9,6 +9,7 @@
         :loading="isLoading"
         :placeholder="placeholder"
         :description="description"
+        :input-type="inputType"
         @submit="onSubmit"
       />
     </div>
@@ -52,6 +53,10 @@ const placeholder = computed(() => {
 
 const description = computed(() => {
   return !sessionId.value ? '' : `請於您的電子郵件信箱 ${currentMail.value} 收取轉移代碼。`;
+});
+
+const inputType = computed(() => {
+  return !sessionId.value ? 'email' : 'text';
 });
 
 const onClickCancel = () => {
