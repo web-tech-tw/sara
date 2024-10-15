@@ -43,6 +43,7 @@ import { useClient } from '../clients/sara.js';
 import { exitApplication } from '../utils.js';
 
 import InputModal from '../components/InputModal.vue';
+import ToastModal from '../components/ToastModal.vue';
 
 const props = defineProps({
   email: {

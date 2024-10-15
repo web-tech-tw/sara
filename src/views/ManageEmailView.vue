@@ -42,6 +42,7 @@ import { useRouter } from 'vue-router';
 import { useClient } from '../clients/sara.js';
 
 import InputModal from '../components/InputModal.vue';
+import ToastModal from '../components/ToastModal.vue';
 
 const isLoading = ref(false);
 const statusMessage = ref('');
