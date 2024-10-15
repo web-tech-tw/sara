@@ -69,6 +69,7 @@ import InputModal from '../components/InputModal.vue';
 import ToastModal from '../components/ToastModal.vue';
 
 const inputHistoryKey = 'saraInputHistoryLogin';
+const registerEmailKey = 'saraRegisterEmail';
 
 const isLoading = ref(false);
 const inputHistory = ref('');
@@ -162,7 +163,7 @@ const doRequest = async (value) => {
     }
   } catch (e) {
     if (e?.response?.status === 404) {
-      sessionStorage.setItem("sara_register_email", value);
+      sessionStorage.setItem(registerEmailKey, value);
       router.push('/register');
     } else {
       const errorCode = e?.response?.status || '無錯誤代碼';

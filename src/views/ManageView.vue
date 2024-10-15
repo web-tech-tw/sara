@@ -15,7 +15,7 @@
           <div class="p-6 bg-white border-b border-gray-200">
             <span class="text-gray-600">暱稱：</span>{{ profile.nickname }}<br>
             <span class="text-gray-600">電子郵件地址：</span>{{ profile.email }}<br>
-            <span class="text-gray-600">Sara系統使用者識別碼：</span>{{ profile._id }}
+            <span class="text-gray-600">Sara 系統使用者識別碼：</span>{{ profile._id }}
           </div>
           <div class="p-6 bg-white border-b border-gray-200 text-right">
             <button

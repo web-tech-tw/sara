@@ -44,6 +44,8 @@ import { exitApplication } from '../utils.js';
 import InputModal from '../components/InputModal.vue';
 import ToastModal from '../components/ToastModal.vue';
 
+const registerEmailKey = 'saraRegisterEmail';
+
 const props = defineProps({
   email: {
     type: String,
@@ -112,7 +114,7 @@ const onSubmit = async (value) => {
 };
 
 const doRequest = async (value) => {
-  const registerEmail = sessionStorage.getItem("sara_register_email");
+  const registerEmail = sessionStorage.getItem(registerEmailKey);
   try {
     const response = await client.post('users', {
       json: {
@@ -147,7 +149,7 @@ const verifyRequest = async (value) => {
       }
     });
     statusMessage.value = '註冊成功，正在寫入憑證...';
-    sessionStorage.removeItem("sara_register_email");
+    sessionStorage.removeItem(registerEmailKey);
     exitApplication();
   } catch (e) {
     const errorCode = e?.response?.status || '無錯誤代碼';
@@ -157,7 +159,7 @@ const verifyRequest = async (value) => {
 };
 
 onMounted(() => {
-  const registerEmail = sessionStorage.getItem("sara_register_email");
+  const registerEmail = sessionStorage.getItem(registerEmailKey);
   if (!registerEmail) {
     router.replace('/');
   }

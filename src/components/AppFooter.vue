@@ -1,7 +1,7 @@
 <template>
   <footer class="mt-16 pb-16 text-sm leading-6">
     <div class="max-w-7xl mx-auto mt-11 divide-y divide-gray-200 px-4 sm:px-6 md:px-8">
-      「Sara系統」是一個開放原始碼的無密碼式身份認證解決方案。
+      「Sara 系統」是一個開放原始碼的無密碼式身份認證解決方案。
     </div>
     <div class="max-w-7xl mx-auto mt-5 divide-y divide-gray-200 px-4 sm:px-6 md:px-8 text-sky-700">
       <a
