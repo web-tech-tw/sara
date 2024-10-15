@@ -1,7 +1,7 @@
 import { createRouter, createWebHashHistory } from "vue-router";
 
 const {
-  VITE_SARA_TOKEN_NAME: tokenName,
+  VITE_SARA_TOKEN_NAME: saraTokenName,
 } = import.meta.env;
 
 import {
@@ -41,7 +41,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, _, next) => {
-  if (localStorage.getItem(tokenName)) {
+  if (localStorage.getItem(saraTokenName)) {
       saraReferTrigger((url) => {
           goToSafeLocation(url);
       });
