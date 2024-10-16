@@ -1,58 +1,117 @@
 <template>
-  <div class="flex justify-center my-8 py-16">
-    <div class="flex flex-col mx-5">
-      <label class="input-label text-base mb-2">
-        {{ title }}
-      </label>
-      <input-modal
-        v-model="content"
-        :loading="isLoading"
-        :done="isDone"
-        :placeholder="placeholder"
-        :description="description"
-        :input-type="inputType"
-        :input-history="inputHistory"
-        @submit="onSubmit"
-      />
+  <div v-if="!isRegistered">
+    <div class="flex justify-center my-8 py-16">
+      <div class="flex flex-col mx-auto">
+        <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
+          <div class="overflow-hidden shadow-md">
+            <div class="px-6 py-4 bg-white border-b border-gray-200 font-bold">
+              尚未註冊
+            </div>
+            <div class="p-6 bg-white border-b border-gray-200">
+              您好，您輸入的電子郵件地址：
+              <div class="text-slate-900 my-3">
+                {{ currentMail }}
+              </div>
+              尚未於 Sara 系統註冊帳號。
+            </div>
+            <div class="p-6 bg-white border-b border-gray-200">
+              若您確定曾經註冊過：<br>
+              請檢查您輸入的電子郵件地址，<br>
+              並點選「取消」以重新輸入。
+            </div>
+            <div class="p-6 bg-white border-b border-gray-200">
+              若您未曾註冊：<br>
+              請點選「註冊」以進行註冊。<br>
+              註冊即代表您同意我們的
+              <a
+                href="https://web-tech.tw/#/privacy"
+                class="text-sky-500 hover:text-sky-700"
+                target="_blank"
+              >
+                隱私權政策
+              </a>。
+            </div>
+            <div class="p-6 bg-white border-b border-gray-200 text-right">
+              <button
+                class="bg-amber-500 shadow-md text-sm text-white font-bold py-3 md:px-8 px-4 hover:bg-amber-600 rounded mr-3"
+                @click="onClickRegister"
+              >
+                註冊
+              </button>
+              <button
+                class="bg-white shadow-md text-sm text-black font-bold py-3 md:px-8 px-4 hover:bg-slate-100 rounded"
+                @click="onClickCancel"
+              >
+                取消
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-  <div
-    v-if="isShowKeypass"
-    class="flex justify-center mt-5"
-  >
-    <button
-      class="flex items-center space-x-2 bg-white-500 shadow-md text-sm text-black font-bold py-3 md:px-8 px-4 hover:bg-slate-100 rounded mr-3"
-      @click="onClickPasskey"
+  <div v-else>
+    <div class="flex justify-center my-8 py-16">
+      <div class="flex flex-col mx-5">
+        <label class="input-label text-base mb-2">
+          {{ title }}
+        </label>
+        <input-modal
+          v-model="content"
+          :loading="isLoading"
+          :done="isDone"
+          :placeholder="placeholder"
+          :description="description"
+          :input-type="inputType"
+          :input-history="inputHistory"
+          @submit="onSubmit"
+        />
+      </div>
+    </div>
+    <div
+      v-if="isShowKeypass"
+      class="flex justify-center mt-5"
     >
-      <span>
-        <finger-print-icon class="h-5 w-5" />
-      </span>
-      <span class="font-bold">
-        Passkey
-      </span>
-    </button>
-  </div>
-  <div
-    v-if="isShowClearHistory"
-    class="flex justify-center mt-5"
-  >
-    <button
-      class="flex items-center space-x-2 bg-white-500 text-sm text-black font-bold py-1 md:px-3 px-4 hover:bg-slate-100 rounded mr-3"
-      @click="onClickClearHistory"
+      <button
+        class="flex items-center space-x-2 bg-white-500 shadow-md text-sm text-black font-bold py-3 md:px-8 px-4 hover:bg-slate-100 rounded mr-3"
+        @click="onClickPasskey"
+      >
+        <span>
+          <finger-print-icon class="h-5 w-5" />
+        </span>
+        <span class="font-bold">
+          Passkey
+        </span>
+      </button>
+    </div>
+    <div
+      v-if="isShowClearHistory"
+      class="flex justify-center mt-5"
     >
-      <span class="font-bold">
-        清除登入記錄
-      </span>
-    </button>
-  </div>
-  <div
-    v-if="isShowSessionDetails"
-    class="text-center text-slate-700 mt-5 text-sm"
-  >
-    <div>申請時間：{{ sessionTm || "未知" }}</div>
-    <div>申請識別碼：{{ sessionId || "未知" }}</div>
-    <div>申請來源裝置：{{ sessionUa || "未知" }}</div>
-    <div>申請來源 IP 位址：{{ sessionIp || "未知" }}</div>
+      <button
+        class="flex items-center space-x-2 bg-white-500 text-sm text-black font-bold py-1 md:px-3 px-4 hover:bg-slate-100 rounded mr-3"
+        @click="onClickClearHistory"
+      >
+        <span class="font-bold">
+          清除登入記錄
+        </span>
+      </button>
+    </div>
+    <div
+      v-if="isShowSessionDetails"
+      class="text-center text-slate-700 mt-5 text-sm"
+    >
+      <div>申請時間：{{ sessionTm || "未知" }}</div>
+      <div>申請識別碼：{{ sessionId || "未知" }}</div>
+      <div>申請來源裝置：{{ sessionUa || "未知" }}</div>
+      <div>申請來源 IP 位址：{{ sessionIp || "未知" }}</div>
+    </div>
+    <div
+      v-show="currentMail"
+      class="text-center text-slate-700 mt-5 text-sm"
+    >
+      <div>目標電子郵件地址：{{ currentMail || "未知" }}</div>
+    </div>
   </div>
   <toast-modal v-model="statusMessage" />
 </template>
@@ -74,6 +133,7 @@ const registerEmailKey = 'saraRegisterEmail';
 
 const isLoading = ref(false);
 const isDone = ref(false);
+const isRegistered = ref(true);
 const inputHistory = ref('');
 const statusMessage = ref('');
 const currentMail = ref('');
@@ -128,6 +188,15 @@ const onClickClearHistory = () => {
   statusMessage.value = "成功清除登入記錄";
 };
 
+const onClickRegister = () => {
+  sessionStorage.setItem(registerEmailKey, currentMail.value);
+  router.push('/register');
+};
+
+const onClickCancel = () => {
+  location.reload();
+};
+
 const onSubmit = async (value) => {
   if (!value) {
     statusMessage.value = emptyWarning.value;
@@ -157,7 +226,7 @@ const doRequest = async (value) => {
       sessionUa.value = result.session_ua;
       sessionIp.value = result.session_ip;
       sessionTm.value = result.session_tm;
-      currentMail.value = content.value;
+      currentMail.value = value;
       inputHistory.value = '';
       content.value = '';
     } else {
@@ -165,8 +234,9 @@ const doRequest = async (value) => {
     }
   } catch (e) {
     if (e?.response?.status === 404) {
-      sessionStorage.setItem(registerEmailKey, value);
-      router.push('/register');
+      currentMail.value = value;
+      isRegistered.value = false;
+      content.value = '';
     } else {
       const errorCode = e?.response?.status || '無錯誤代碼';
       statusMessage.value = `發生錯誤 (${errorCode})`;

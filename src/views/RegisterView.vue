@@ -32,6 +32,12 @@
     <div>申請來源裝置：{{ sessionUa || "未知" }}</div>
     <div>申請來源 IP 位址：{{ sessionIp || "未知" }}</div>
   </div>
+  <div
+    v-show="currentMail"
+    class="text-center text-slate-700 mt-5 text-sm"
+  >
+    <div>目標電子郵件地址：{{ currentMail || "未知" }}</div>
+  </div>
   <toast-modal v-model="statusMessage" />
 </template>
 
@@ -47,13 +53,6 @@ import ToastModal from '../components/ToastModal.vue';
 
 const loginEmailHistoryKey = 'saraLoginEmailHistory';
 const registerEmailKey = 'saraRegisterEmail';
-
-const props = defineProps({
-  email: {
-    type: String,
-    required: true,
-  },
-});
 
 const isLoading = ref(false);
 const isDone = ref(false);
@@ -117,11 +116,10 @@ const onSubmit = async (value) => {
 };
 
 const doRequest = async (value) => {
-  const registerEmail = sessionStorage.getItem(registerEmailKey);
   try {
     const response = await client.post('users', {
       json: {
-        email: registerEmail,
+        email: currentMail.value,
         nickname: value,
       },
     });
@@ -131,7 +129,6 @@ const doRequest = async (value) => {
       sessionUa.value = result.session_ua;
       sessionIp.value = result.session_ip;
       sessionTm.value = result.session_tm;
-      currentMail.value = registerEmail;
       content.value = '';
     } else {
       statusMessage.value = '發生錯誤 (無錯誤代碼)';
@@ -164,8 +161,8 @@ const verifyRequest = async (value) => {
 };
 
 onMounted(() => {
-  const registerEmail = sessionStorage.getItem(registerEmailKey);
-  if (!registerEmail) {
+  currentMail.value = sessionStorage.getItem(registerEmailKey);
+  if (!currentMail.value) {
     router.replace('/');
   }
 });

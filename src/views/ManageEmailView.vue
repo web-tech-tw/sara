@@ -32,6 +32,12 @@
     <div>申請來源裝置：{{ sessionUa || "未知" }}</div>
     <div>申請來源 IP 位址：{{ sessionIp || "未知" }}</div>
   </div>
+  <div
+    v-show="currentMail"
+    class="text-center text-slate-700 mt-5 text-sm"
+  >
+    <div>目標電子郵件地址：{{ currentMail || "未知" }}</div>
+  </div>
   <toast-modal v-model="statusMessage" />
 </template>
 
@@ -120,7 +126,7 @@ const doRequest = async (value) => {
       sessionUa.value = result.session_ua;
       sessionIp.value = result.session_ip;
       sessionTm.value = result.session_tm;
-      currentMail.value = content.value;
+      currentMail.value = value;
       content.value = '';
     } else {
       statusMessage.value = '發生錯誤 (無錯誤代碼)';
