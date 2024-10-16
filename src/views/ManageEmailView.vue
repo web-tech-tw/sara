@@ -7,6 +7,7 @@
       <input-modal
         v-model="content"
         :loading="isLoading"
+        :done="isDone"
         :placeholder="placeholder"
         :description="description"
         :input-type="inputType"
@@ -44,6 +45,7 @@ import InputModal from '../components/InputModal.vue';
 import ToastModal from '../components/ToastModal.vue';
 
 const isLoading = ref(false);
+const isDone = ref(false);
 const statusMessage = ref('');
 const currentMail = ref('');
 const sessionId = ref('');
@@ -136,6 +138,7 @@ const verifyRequest = async (value) => {
         code: value,
       }
     });
+    isDone.value = true;
     statusMessage.value = '修改成功，正在寫入憑證...';
     setTimeout(() => router.replace('/manage'), 500);
   } catch (e) {

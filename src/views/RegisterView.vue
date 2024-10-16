@@ -7,6 +7,7 @@
       <input-modal
         v-model="content"
         :loading="isLoading"
+        :done="isDone"
         :placeholder="placeholder"
         :description="description"
         :input-type="inputType"
@@ -54,6 +55,7 @@ const props = defineProps({
 });
 
 const isLoading = ref(false);
+const isDone = ref(false);
 const statusMessage = ref('');
 const currentMail = ref('');
 const sessionId = ref('');
@@ -148,6 +150,7 @@ const verifyRequest = async (value) => {
         code: value,
       }
     });
+    isDone.value = true;
     statusMessage.value = '註冊成功，正在寫入憑證...';
     sessionStorage.removeItem(registerEmailKey);
     exitApplication();

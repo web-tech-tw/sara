@@ -3,7 +3,7 @@
     <div class="flex rounded bg-white w-auto shadow-md md:w-[30rem]">
       <input
         v-model="content"
-        :disabled="props.loading"
+        :disabled="isDisabled"
         :placeholder="props.placeholder"
         class="w-full border-none bg-transparent px-4 py-1 text-gray-900 outline-none focus:outline-none"
         :type="inputType"
@@ -15,16 +15,18 @@
         :disabled="props.loading"
         @click="onSubmit"
       >
-        <img
-          v-if="props.loading"
-          :src="LoadingCircle"
-          class="h-6 w-6 my-1 animate-spin"
-        >
-        <img
-          v-else
-          :src="NextCircle"
+        <check-circle-icon
+          v-if="props.done"
           class="h-6 w-6 my-1"
-        >
+        />
+        <loading-circle-icon
+          v-else-if="props.loading"
+          class="h-6 w-6 my-1 animate-spin"
+        />
+        <arrow-right-circle-icon
+          v-else
+          class="h-6 w-6 my-1"
+        />
       </button>
     </div>
     <button
@@ -43,8 +45,12 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 
-import NextCircle from '../assets/NextCircle.svg';
-import LoadingCircle from '../assets/LoadingCircle.svg';
+import {
+  ArrowRightCircleIcon,
+  CheckCircleIcon,
+} from "@heroicons/vue/24/outline"
+
+import LoadingCircleIcon from './LoadingCircleIcon.vue';
 
 const props = defineProps({
   placeholder: {
@@ -52,6 +58,10 @@ const props = defineProps({
     required: true,
   },
   loading: {
+    type: Boolean,
+    required: true,
+  },
+  done: {
     type: Boolean,
     required: true,
   },
@@ -81,6 +91,10 @@ const isShowHistoryRaw = ref(false);
 
 const isShowHistory = computed(() => {
   return !!props.inputHistory && !content.value && isShowHistoryRaw.value;
+});
+
+const isDisabled = computed(() => {
+  return props.loading || props.done;
 });
 
 const onClickHistory = () => {

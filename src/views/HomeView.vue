@@ -7,6 +7,7 @@
       <input-modal
         v-model="content"
         :loading="isLoading"
+        :done="isDone"
         :placeholder="placeholder"
         :description="description"
         :input-type="inputType"
@@ -72,6 +73,7 @@ const inputHistoryKey = 'saraInputHistoryLogin';
 const registerEmailKey = 'saraRegisterEmail';
 
 const isLoading = ref(false);
+const isDone = ref(false);
 const inputHistory = ref('');
 const statusMessage = ref('');
 const currentMail = ref('');
@@ -181,6 +183,7 @@ const verifyRequest = async (value) => {
         code: value,
       }
     });
+    isDone.value = true;
     statusMessage.value = '登入成功，正在寫入憑證...';
     localStorage.setItem(inputHistoryKey, currentMail.value);
     exitApplication();
