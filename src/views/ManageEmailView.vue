@@ -44,6 +44,8 @@ import { useClient } from '../clients/sara.js';
 import InputModal from '../components/InputModal.vue';
 import ToastModal from '../components/ToastModal.vue';
 
+const loginEmailHistoryKey = 'saraLoginEmailHistory';
+
 const isLoading = ref(false);
 const isDone = ref(false);
 const statusMessage = ref('');
@@ -140,6 +142,7 @@ const verifyRequest = async (value) => {
     });
     isDone.value = true;
     statusMessage.value = '修改成功，正在寫入憑證...';
+    localStorage.setItem(loginEmailHistoryKey, currentMail.value);
     setTimeout(() => router.replace('/manage'), 500);
   } catch (e) {
     const errorCode = e?.response?.status || '無錯誤代碼';

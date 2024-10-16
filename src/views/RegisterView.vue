@@ -45,6 +45,7 @@ import { exitApplication } from '../utils.js';
 import InputModal from '../components/InputModal.vue';
 import ToastModal from '../components/ToastModal.vue';
 
+const loginEmailHistoryKey = 'saraLoginEmailHistory';
 const registerEmailKey = 'saraRegisterEmail';
 
 const props = defineProps({
@@ -130,7 +131,7 @@ const doRequest = async (value) => {
       sessionUa.value = result.session_ua;
       sessionIp.value = result.session_ip;
       sessionTm.value = result.session_tm;
-      currentMail.value = content.value;
+      currentMail.value = registerEmail;
       content.value = '';
     } else {
       statusMessage.value = '發生錯誤 (無錯誤代碼)';
@@ -153,6 +154,7 @@ const verifyRequest = async (value) => {
     isDone.value = true;
     statusMessage.value = '註冊成功，正在寫入憑證...';
     sessionStorage.removeItem(registerEmailKey);
+    localStorage.setItem(loginEmailHistoryKey, currentMail.value);
     exitApplication();
   } catch (e) {
     const errorCode = e?.response?.status || '無錯誤代碼';

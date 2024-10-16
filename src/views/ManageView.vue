@@ -2,7 +2,7 @@
   <div class="flex justify-center my-8 py-16">
     <div
       v-if="profile"
-      class="flex flex-col mx-5 md:mx-auto"
+      class="flex flex-col mx-auto"
     >
       <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
         <div
@@ -62,7 +62,7 @@
           <div class="p-6 bg-white border-b border-gray-200">
             <div class="flex rounded bg-white">
               <label
-                class="px-4 py-1 text-gray-600"
+                class="w-20 px-4 py-1 text-gray-600"
                 for="nickname"
               >暱稱：</label>
               <input

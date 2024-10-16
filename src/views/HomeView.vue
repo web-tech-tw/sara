@@ -69,7 +69,7 @@ import { exitApplication } from '../utils.js';
 import InputModal from '../components/InputModal.vue';
 import ToastModal from '../components/ToastModal.vue';
 
-const inputHistoryKey = 'saraInputHistoryLogin';
+const loginEmailHistoryKey = 'saraLoginEmailHistory';
 const registerEmailKey = 'saraRegisterEmail';
 
 const isLoading = ref(false);
@@ -123,7 +123,7 @@ const onClickPasskey = () => {
 };
 
 const onClickClearHistory = () => {
-  localStorage.removeItem(inputHistoryKey);
+  localStorage.removeItem(loginEmailHistoryKey);
   inputHistory.value = "";
   statusMessage.value = "成功清除登入記錄";
 };
@@ -185,7 +185,7 @@ const verifyRequest = async (value) => {
     });
     isDone.value = true;
     statusMessage.value = '登入成功，正在寫入憑證...';
-    localStorage.setItem(inputHistoryKey, currentMail.value);
+    localStorage.setItem(loginEmailHistoryKey, currentMail.value);
     exitApplication();
   } catch (e) {
     const errorCode = e?.response?.status || '無錯誤代碼';
@@ -195,6 +195,6 @@ const verifyRequest = async (value) => {
 };
 
 onMounted(() => {
-  inputHistory.value = localStorage.getItem(inputHistoryKey);
+  inputHistory.value = localStorage.getItem(loginEmailHistoryKey);
 });
 </script>
