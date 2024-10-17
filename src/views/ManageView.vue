@@ -72,7 +72,7 @@
               class="bg-red-500 shadow-md text-sm text-white font-bold py-3 md:px-8 px-4 hover:bg-red-600 rounded mr-3"
               @click="onSubmitDelete"
             >
-              確定修改
+              確定刪除
             </button>
             <button
               class="bg-white-500 shadow-md text-sm text-black font-bold py-3 md:px-8 px-4 hover:bg-slate-100 rounded"
