@@ -193,7 +193,7 @@ import { useClient } from '../clients/sara.js';
 import ToastModal from '../components/ToastModal.vue';
 
 const {
-  VITE_INDEX_INTE_HOST: indexInteHost,
+  VITE_HOME_INTE_HOST: homeInteHost,
   VITE_SARA_TOKEN_NAME: saraTokenName,
   VITE_SARA_GUARD_NAME: saraGuardName,
 } = import.meta.env;
@@ -221,7 +221,7 @@ const isShowRoles = computed(() => {
 const onClickLogout = () => {
   localStorage.removeItem(saraTokenName);
   localStorage.removeItem(saraGuardName);
-  location.replace(indexInteHost);
+  location.replace(homeInteHost);
 };
 
 const onClickDelete = () => {
@@ -240,7 +240,7 @@ const onSubmitDelete = async () => {
   await client.delete('users/me');
   statusMessage.value = "刪除成功";
   setTimeout(() => {
-    location.replace(indexInteHost);
+    location.replace(homeInteHost);
   }, 1300);
 };
 
