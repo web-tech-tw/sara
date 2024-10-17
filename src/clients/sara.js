@@ -20,8 +20,6 @@ const refreshSaraToken = (_request, _options, response) => {
     if (!tokenValue) return;
 
     const [saraToken, guardToken] = tokenValue.split("|", 2);
-    if (!saraToken || !guardToken) return;
-    
     localStorage.setItem(saraTokenName, saraToken);
     localStorage.setItem(saraGuardName, guardToken);
 };
