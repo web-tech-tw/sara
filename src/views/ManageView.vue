@@ -77,7 +77,7 @@
           <div class="p-6 bg-white border-b border-gray-200">
             若要修改電子郵件地址，請點
             <router-link
-              class="text-amber-900"
+              class="text-sky-500 hover:text-sky-700"
               to="/manage/email"
             >
               此處
