@@ -55,13 +55,15 @@
           <div class="p-6 bg-white border-b border-gray-200">
             <div class="flex rounded bg-white">
               <label
-                class="w-20 px-4 py-1 text-gray-600"
+                class="w-16 py-1 text-gray-600"
                 for="confirm"
-              >刪除：</label>
+              >
+                刪除：
+              </label>
               <input
                 id="confirm"
                 v-model="fieldDelete.confirm"
-                class="border-none bg-transparent px-4 py-1 text-gray-900 outline-none focus:outline-none"
+                class="w-full border-none bg-transparent px-4 py-1 text-gray-900 outline-none rounded focus:ring"
                 placeholder="若確定刪除，請輸入 DELETE"
                 type="text"
               >
@@ -92,14 +94,16 @@
           <div class="p-6 bg-white border-b border-gray-200">
             <div class="flex rounded bg-white">
               <label
-                class="w-20 px-4 py-1 text-gray-600"
+                class="w-16 py-1 text-gray-600"
                 for="nickname"
-              >暱稱：</label>
+              >
+                暱稱：
+              </label>
               <input
                 id="nickname"
                 v-model="fieldEdit.nickname"
-                class="border-none bg-transparent px-4 py-1 text-gray-900 outline-none focus:outline-none"
-                placeholder="例如：星川 サラ"
+                class="w-full border-none bg-transparent px-4 py-1 text-gray-900 outline-none rounded focus:ring"
+                placeholder="星川 サラ"
                 type="text"
               >
             </div>
