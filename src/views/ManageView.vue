@@ -165,7 +165,7 @@
             v-if="isShowRoles"
             class="p-6 bg-white border-b border-gray-200"
           >
-            <span class="text-gray-600">持有權限：</span>
+            <span class="text-gray-600">持有權限烙印：</span>
             <ul class="list-disc ml-7">
               <li
                 v-for="(i, j) in myProfile.roles"
