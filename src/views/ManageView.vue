@@ -166,6 +166,38 @@
             </button>
           </div>
           <div
+            class="p-6 bg-white border-b border-gray-200"
+          >
+            <span class="text-gray-600">通行金鑰：</span>
+            <div
+              v-show="!myProfile.passkeys.length"
+              class="text-center text-slate-600"
+            >
+              尚未設定通行金鑰
+            </div>
+            <ul class="ml-7">
+              <li
+                v-for="(i, j) in myProfile.passkeys"
+                :key="j"
+              >
+                <button
+                  class="w-full bg-white shadow-md text-sm text-slate-700 font-bold py-3 md:px-8 px-4 my-3 hover:bg-slate-300 rounded"
+                  @click="onClickPasskeyManage(i)"
+                >
+                  {{ i.name }}
+                </button>
+              </li>
+            </ul>
+            <button
+              v-if="isShowPasskeyAdd"
+              class="w-full bg-white shadow-md text-sm text-slate-700 font-bold py-3 md:px-8 px-4 my-3 hover:bg-slate-300 rounded"
+              @click="onClickPasskeyAdd"
+            >
+              <plus-icon class="w-6 h-6 inline-block -mt-1 mr-2" />
+              新增通行金鑰
+            </button>
+          </div>
+          <div
             v-if="isShowRoles"
             class="p-6 bg-white border-b border-gray-200"
           >
@@ -191,6 +223,15 @@
 
 <script setup>
 import { ref, reactive, computed, onMounted } from 'vue';
+
+import {
+  PlusIcon,
+} from "@heroicons/vue/24/solid";
+
+import { 
+  browserSupportsWebAuthn,
+  startRegistration,
+ } from '@simplewebauthn/browser';
 
 import { useClient } from '../clients/sara.js';
 
@@ -220,6 +261,10 @@ const client = useClient();
 
 const isShowRoles = computed(() => {
   return Array.isArray(myProfile?.roles) && myProfile.roles.length;
+});
+
+const isShowPasskeyAdd = computed(() => {
+  return browserSupportsWebAuthn();
 });
 
 const onClickLogout = () => {
@@ -266,6 +311,45 @@ const onSubmitEdit = async () => {
   setTimeout(() => {
     location.reload();
   }, 1300);
+};
+
+const onClickPasskeyManage = (passkey) => {
+  statusMessage.value = `尚未實作：管理通行金鑰 ${passkey.name}`;
+};
+
+const onClickPasskeyAdd = async () => {
+  const response = await client.post("users/me/passkeys");
+  const {
+    session_id: sessionId,
+    session_options: sessionOptions,
+  } = await response.json();
+
+  let credential;
+  try {
+    credential = await startRegistration({
+      optionsJSON: sessionOptions,
+    });
+  } catch (e) {
+    console.error(e);
+    statusMessage.value = e.message;
+    return;
+  }
+
+  try {
+    await client.patch("users/me/passkeys", {
+      json: {
+        session_id: sessionId,
+        credential,
+      },
+    });
+    setTimeout(() => {
+      location.reload();
+    }, 1300);
+  } catch (e) {
+    console.error(e);
+    statusMessage.value = e.message;
+    return;
+  }
 };
 
 onMounted(async () => {

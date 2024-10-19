@@ -120,7 +120,12 @@
 import { ref, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
-import { FingerPrintIcon } from "@heroicons/vue/24/solid"
+import { FingerPrintIcon } from "@heroicons/vue/24/solid";
+
+import { 
+  browserSupportsWebAuthn,
+  startAuthentication,
+ } from '@simplewebauthn/browser';
 
 import { useClient } from '../clients/sara.js';
 import { exitApplication } from '../utils.js';
@@ -167,7 +172,7 @@ const emptyWarning = computed(() => {
 });
 
 const isShowKeypass = computed(() => {
-  return !sessionId.value;
+  return browserSupportsWebAuthn() && !sessionId.value;
 });
 
 const isShowClearHistory = computed(() => {
@@ -178,8 +183,42 @@ const isShowSessionDetails = computed(() => {
   return !!sessionId.value;
 });
 
-const onClickPasskey = () => {
-  statusMessage.value = "尚未實作";
+const onClickPasskey = async () => {
+  const {value} = content;
+  if (!value) {
+    statusMessage.value = emptyWarning.value;
+    return;
+  }
+
+  const response = await client.post("tokens/passkeys", {
+    json: {
+      email: value,
+    }
+  });
+  const {
+    session_id: passkeySessionId,
+    session_options: sessionOptions,
+  } = await response.json();
+
+  try {
+    const credential = await startAuthentication({
+      optionsJSON: sessionOptions,
+    });
+    await client.patch('tokens/passkeys', {
+      json: {
+        session_id: passkeySessionId,
+        credential,
+      }
+    });
+    isDone.value = true;
+    statusMessage.value = '登入成功，正在寫入憑證...';
+    localStorage.setItem(loginEmailHistoryKey, currentMail.value);
+    exitApplication();
+  } catch (e) {
+    const errorCode = e?.response?.status || '無錯誤代碼';
+    statusMessage.value = `發生錯誤 (${errorCode})`;
+    console.error(e.message);
+  }
 };
 
 const onClickClearHistory = () => {
