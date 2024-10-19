@@ -212,7 +212,7 @@ const onClickPasskey = async () => {
     });
     isDone.value = true;
     statusMessage.value = '登入成功，正在寫入憑證...';
-    localStorage.setItem(loginEmailHistoryKey, currentMail.value);
+    localStorage.setItem(loginEmailHistoryKey, value);
     exitApplication();
   } catch (e) {
     const errorCode = e?.response?.status || '無錯誤代碼';
