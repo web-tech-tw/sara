@@ -175,19 +175,16 @@
             >
               尚未設定通行金鑰
             </div>
-            <ul class="ml-7">
-              <li
+            <div>
+              <button
                 v-for="(i, j) in myProfile.passkeys"
                 :key="j"
+                class="w-full bg-white shadow-md text-sm text-slate-700 font-bold py-3 md:px-8 px-4 my-3 hover:bg-slate-300 rounded"
+                @click="onClickPasskeyManage(i)"
               >
-                <button
-                  class="w-full bg-white shadow-md text-sm text-slate-700 font-bold py-3 md:px-8 px-4 my-3 hover:bg-slate-300 rounded"
-                  @click="onClickPasskeyManage(i)"
-                >
-                  {{ i.name }}
-                </button>
-              </li>
-            </ul>
+                {{ i.label }}
+              </button>
+            </div>
             <button
               v-if="isShowPasskeyAdd"
               class="w-full bg-white shadow-md text-sm text-slate-700 font-bold py-3 md:px-8 px-4 my-3 hover:bg-slate-300 rounded"
@@ -314,7 +311,7 @@ const onSubmitEdit = async () => {
 };
 
 const onClickPasskeyManage = (passkey) => {
-  statusMessage.value = `尚未實作：管理通行金鑰 ${passkey.name}`;
+  statusMessage.value = `尚未實作：管理通行金鑰 ${passkey.label}`;
 };
 
 const onClickPasskeyAdd = async () => {
@@ -342,6 +339,7 @@ const onClickPasskeyAdd = async () => {
         credential,
       },
     });
+    statusMessage.value = "通行金鑰新增成功";
     setTimeout(() => {
       location.reload();
     }, 1300);

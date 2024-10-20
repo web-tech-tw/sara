@@ -77,7 +77,14 @@
         @click="onClickPasskey"
       >
         <span>
-          <finger-print-icon class="h-5 w-5" />
+          <loading-circle-icon
+            v-if="isLoading"
+            class="h-5 w-5 animate-spin"
+          />
+          <finger-print-icon
+            v-else
+            class="h-5 w-5"
+          />
         </span>
         <span class="font-bold">
           Passkey
@@ -122,10 +129,12 @@ import { useRouter } from 'vue-router';
 
 import { FingerPrintIcon } from "@heroicons/vue/24/solid";
 
-import { 
+import LoadingCircleIcon from '../components/LoadingCircleIcon.vue';
+
+import {
   browserSupportsWebAuthn,
   startAuthentication,
- } from '@simplewebauthn/browser';
+} from '@simplewebauthn/browser';
 
 import { useClient } from '../clients/sara.js';
 import { exitApplication } from '../utils.js';
@@ -190,17 +199,18 @@ const onClickPasskey = async () => {
     return;
   }
 
-  const response = await client.post("tokens/passkeys", {
-    json: {
-      email: value,
-    }
-  });
-  const {
-    session_id: passkeySessionId,
-    session_options: sessionOptions,
-  } = await response.json();
-
+  isLoading.value = true;
   try {
+    const response = await client.post("tokens/passkeys", {
+      json: {
+        email: value,
+      }
+    });
+    const {
+      session_id: passkeySessionId,
+      session_options: sessionOptions,
+    } = await response.json();
+
     const credential = await startAuthentication({
       optionsJSON: sessionOptions,
     });
@@ -218,6 +228,7 @@ const onClickPasskey = async () => {
     const errorCode = e?.response?.status || '無錯誤代碼';
     statusMessage.value = `發生錯誤 (${errorCode})`;
     console.error(e.message);
+    isLoading.value = false;
   }
 };
 
