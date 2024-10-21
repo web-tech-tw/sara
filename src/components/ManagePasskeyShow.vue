@@ -7,15 +7,15 @@
       <div class="p-6 bg-white border-b border-gray-200">
         <span class="text-gray-600">金鑰識別碼: </span>{{ props.id }}<br>
         <span class="text-gray-600">使用次數*: </span>{{ props.counter }}<br>
-        <span class="text-gray-600">傳輸機制: </span>{{ props.transports.join(", ") }}<br>
+        <span class="text-gray-600">傳輸機制: </span>{{ transports }}<br>
         <span class="text-gray-600">建立時間: </span>{{ props.createdAt }}<br>
         <span class="text-gray-600">更新時間: </span>{{ props.updatedAt }}<br>
       </div>
-      <div class="p-6 bg-white border-b border-gray-200 text-sm text-gray-600">
-        * 對於 Apple Inc. 所生產的裝置，
-        基於該製造商對於 Passkey 通行金鑰的設計，
-        使用次數僅供參考（可能永久為 0），
-        實際使用次數可能因為 Apple Inc. 的實作方式而有所不同。
+      <div class="p-6 bg-white border-b border-gray-200 text-sm text-gray-600 inline-block">
+        <span>* 對於 Apple Inc. 所生產的裝置，</span>
+        <span>基於該製造商對於 Passkey 通行金鑰的設計，</span>
+        <span>使用次數僅供參考（可能永久為 0），</span>
+        <span>實際使用次數可能因為 Apple Inc. 的實作方式而有所不同。</span>
       </div>
       <div class="p-6 bg-white border-gray-200 text-right">
         <button
@@ -36,6 +36,8 @@
 </template>
 
 <script setup>
+import { computed } from "vue";
+
 const props = defineProps({
   id: {
     type: String,
@@ -68,6 +70,13 @@ const props = defineProps({
 });
 
 const emits = defineEmits(["state", "status"]);
+
+const transports = computed(() => {
+  if (!props.transports?.length) {
+    return "不支援";
+  }
+  return props.transports.join("、");
+});
 
 const onClickEdit = () => {
   emits("status", {

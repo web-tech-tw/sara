@@ -30,7 +30,7 @@
           class="h-5 w-5"
         />
         <loading-circle-icon
-          v-if="isLoad"
+          v-else-if="isLoad"
           class="h-5 w-5 animate-spin"
         />
         <finger-print-icon
@@ -64,7 +64,7 @@ import { computed, onMounted, ref } from "vue";
 import {
   CheckCircleIcon,
   FingerPrintIcon,
-} from "@heroicons/vue/24/solid";
+} from "@heroicons/vue/24/outline";
 
 import LoadingCircleIcon from "./LoadingCircleIcon.vue";
 
