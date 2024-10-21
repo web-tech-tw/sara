@@ -12,10 +12,11 @@
         <span class="text-gray-600">更新時間: </span>{{ props.updatedAt }}<br>
       </div>
       <div class="p-6 bg-white border-b border-gray-200 text-sm text-gray-600 inline-block">
-        <span>* 對於 Apple Inc. 所生產的裝置，</span>
-        <span>基於該製造商對於 Passkey 通行金鑰的設計，</span>
-        <span>使用次數僅供參考（可能永久為 0），</span>
-        <span>實際使用次數可能因為 Apple Inc. 的實作方式而有所不同。</span>
+        <span>*「Passkeys 通行金鑰」並非「Security Keys 安全金鑰」，</span>
+        <span>雖 WebAuthn 2 規範曾因安全考量（重放攻擊問題）提及「Signature Counter 簽名計數器」機制。</span>
+        <span>但由於跨裝置傳輸驗證特性，因現今各家安全裝置廠商的同步技術問題因素，</span>
+        <span>當前絕大部分裝置<b>並無實作</b>「使用次數」跨裝置計數同步機制。</span>
+        <span>基於各項技術原因限制，本數值將永久保持為「0」。</span>
       </div>
       <div class="p-6 bg-white border-gray-200 text-right">
         <button
