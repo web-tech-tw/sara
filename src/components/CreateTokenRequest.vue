@@ -96,10 +96,12 @@ const inputHistory = ref("");
 
 const isLoad = ref(false);
 const isDone = ref(false);
+
 const isUsingPasskey = ref(false);
+const isUsingEmailCode = ref(false);
 
 const isShowPasskey = computed(() => {
-  return browserSupportsWebAuthn();
+  return browserSupportsWebAuthn() && !isUsingEmailCode.value;
 });
 
 const isShowClearHistory = computed(() => {
@@ -177,6 +179,8 @@ const requestSubmit = async (value) => {
   const client = useClient();
 
   try {
+    isUsingEmailCode.value = true;
+
     const response = await client.post("tokens", {
       json: {
         email: value,
@@ -217,6 +221,8 @@ const requestSubmit = async (value) => {
     emits("status", {
       message: `發生錯誤 (${errorCode})`,
     });
+
+    isUsingEmailCode.value = false;
   }
 };
 

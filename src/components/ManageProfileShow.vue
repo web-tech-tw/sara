@@ -50,7 +50,7 @@
           <button
             v-for="(i, j) in myProfile.passkeys"
             :key="j"
-            class="w-full bg-white shadow-md text-sm text-slate-700 font-bold py-3 md:px-8 px-4 my-1 hover:bg-slate-300 rounded"
+            class="w-full bg-white text-sm text-slate-700 font-bold py-3 md:px-8 px-4 my-1 hover:bg-slate-300 rounded"
             @click="onClickPasskeyManage(i)"
           >
             {{ i.label }}
