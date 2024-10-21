@@ -1,368 +1,57 @@
 <template>
-  <div class="flex justify-center my-8 py-16">
-    <div
-      v-if="myProfile.isLoaded"
-      class="flex flex-col mx-auto"
-    >
-      <div class="max-w-2xl mx-auto sm:px-6 lg:px-8">
-        <div
-          v-if="isDelete"
-          class="overflow-hidden shadow-md"
-        >
-          <div class="px-6 py-4 bg-white border-b border-gray-200 font-bold">
-            刪除帳號
-          </div>
-          <div class="p-6 bg-white border-b border-gray-200 text-red-600">
-            ⚠️ 請注意，刪除帳號後，所有資料將無法復原。
-          </div>
-          <div class="p-6 bg-white border-b border-gray-200">
-            <p class="text-amber-500">
-              ‼️ 刪除並非完全抹除 ‼️
-            </p>
-            本系統將保留您的「Sara 系統使用者識別碼」以供您先前曾使用的服務繼續應用，但會將您的暱稱及電子郵件地址設為無效值。<br>
-            這意味著，您將 <span class="text-red-600">永久喪失</span>
-            本帳號的存取權限，您將不再被識別為「同一個使用者」。但您的互動紀錄仍會保留在系統中作為服務參照。
-            <div class="my-3">
-              以下是將被刪除的資料：
-              <ul class="list-disc ml-6">
-                <li>暱稱</li>
-                <li>電子郵件地址</li>
-                <li>您對本「Sara 系統使用者識別碼」之存取權限</li>
-              </ul>
-            </div>
-            在帳號刪除後，您將無法再次使用此帳號登入本系統。<br>
-            但您可使用相同的電子郵件地址重新註冊新帳號。
-          </div>
-          <div class="p-6 bg-white border-b border-gray-200 text-red-600">
-            請注意，刪除帳號後，所有資料將無法復原。<br>
-            本操作無法撤銷，請謹慎考慮。<br>
-            若確定刪除，請輸入 DELETE 以確認。
-          </div>
-          <div class="p-6 bg-white border-b border-gray-200">
-            將被刪除的帳號資訊如下：
-            <div class="p-6">
-              <span class="text-gray-600">暱稱：</span>{{ myProfile.nickname }}<br>
-              <span class="text-gray-600">電子郵件地址：</span>{{ myProfile.email }}<br>
-              <span class="text-red-600">（資料將會立即抹除，不會保存您的資訊）</span>
-            </div>
-            將解除存取權限的使用者識別碼如下：
-            <div class="p-6">
-              <span class="text-gray-600">Sara 系統使用者識別碼：</span>{{ myProfile._id }}<br>
-              <span class="text-gray-600">Sara 系統權限烙印：</span>{{ myProfile.roles.length }} 組<br>
-              <span class="text-red-600">（資料仍會保留在系統中，但將無法再次使用）</span>
-            </div>
-          </div>
-          <div class="p-6 bg-white border-b border-gray-200">
-            <div class="flex rounded bg-white">
-              <label
-                class="w-16 py-1 text-gray-600"
-                for="confirm"
-              >
-                刪除：
-              </label>
-              <input
-                id="confirm"
-                v-model="fieldDelete.confirm"
-                class="w-full border-none bg-transparent px-4 py-1 text-gray-900 outline-none rounded focus:ring"
-                placeholder="若確定刪除，請輸入 DELETE"
-                type="text"
-              >
-            </div>
-          </div>
-          <div class="p-6 bg-white border-gray-200 text-right">
-            <button
-              class="bg-red-500 shadow-md text-sm text-white font-bold py-3 md:px-8 px-4 hover:bg-red-600 rounded mr-3"
-              @click="onSubmitDelete"
-            >
-              確定刪除
-            </button>
-            <button
-              class="bg-white-500 shadow-md text-sm text-black font-bold py-3 md:px-8 px-4 hover:bg-slate-100 rounded"
-              @click="onClickCancelDelete"
-            >
-              取消
-            </button>
-          </div>
-        </div>
-        <div
-          v-else-if="isEdit"
-          class="overflow-hidden shadow-md"
-        >
-          <div class="px-6 py-4 bg-white border-b border-gray-200 font-bold">
-            修改個人資料：
-          </div>
-          <div class="p-6 bg-white border-b border-gray-200">
-            <div class="flex rounded bg-white">
-              <label
-                class="w-16 py-1 text-gray-600"
-                for="nickname"
-              >
-                暱稱：
-              </label>
-              <input
-                id="nickname"
-                v-model="fieldEdit.nickname"
-                class="w-full border-none bg-transparent px-4 py-1 text-gray-900 outline-none rounded focus:ring"
-                placeholder="星川 サラ"
-                type="text"
-              >
-            </div>
-          </div>
-          <div class="p-6 bg-white border-b border-gray-200">
-            若要修改電子郵件地址，請點
-            <router-link
-              class="text-sky-500 hover:text-sky-700"
-              to="/manage/email"
-            >
-              此處
-            </router-link>
-            。
-          </div>
-          <div class="p-6 bg-white border-gray-200 text-right">
-            <button
-              class="bg-sky-500 shadow-md text-sm text-white font-bold py-3 md:px-8 px-4 hover:bg-sky-600 rounded mr-3"
-              @click="onSubmitEdit"
-            >
-              確定修改
-            </button>
-            <button
-              class="bg-white-500 shadow-md text-sm text-black font-bold py-3 md:px-8 px-4 hover:bg-slate-100 rounded"
-              @click="onClickCancelEdit"
-            >
-              取消
-            </button>
-          </div>
-        </div>
-        <div
-          v-else
-          class="overflow-hidden shadow-md"
-        >
-          <div class="px-6 py-4 bg-white border-b border-gray-200 font-bold">
-            您好，{{ myProfile.nickname }}，這裡是您的個人資料：
-          </div>
-          <div class="p-6 bg-white border-b border-gray-200">
-            <span class="text-gray-600">暱稱：</span>{{ myProfile.nickname }}<br>
-            <span class="text-gray-600">電子郵件地址：</span>{{ myProfile.email }}<br>
-            <span class="text-gray-600">Sara 系統使用者識別碼：</span>{{ myProfile._id }}
-          </div>
-          <div class="p-6 bg-white border-b border-gray-200 text-right">
-            <button
-              class="bg-amber-500 shadow-md text-sm text-white font-bold py-3 md:px-8 px-4 hover:bg-amber-600 rounded mr-3"
-              @click="onClickLogout"
-            >
-              登出
-            </button>
-            <button
-              class="bg-red-500 shadow-md text-sm text-white font-bold py-3 md:px-8 px-4 hover:bg-red-600 rounded mr-3"
-              @click="onClickDelete"
-            >
-              刪除帳號
-            </button>
-            <button
-              class="bg-sky-500 shadow-md text-sm text-white font-bold py-3 md:px-8 px-4 hover:bg-sky-600 rounded"
-              @click="onClickEdit"
-            >
-              修改個人資料
-            </button>
-          </div>
-          <div
-            class="p-6 bg-white border-b border-gray-200"
-          >
-            <span class="text-gray-600">通行金鑰：</span>
-            <div
-              v-show="!myProfile.passkeys.length"
-              class="text-center text-slate-600"
-            >
-              尚未設定通行金鑰
-            </div>
-            <div>
-              <button
-                v-for="(i, j) in myProfile.passkeys"
-                :key="j"
-                class="w-full bg-white shadow-md text-sm text-slate-700 font-bold py-3 md:px-8 px-4 my-1 hover:bg-slate-300 rounded"
-                @click="onClickPasskeyManage(i)"
-              >
-                {{ i.label }}
-              </button>
-            </div>
-            <button
-              v-if="isShowPasskeyAdd"
-              class="w-full bg-white shadow-md text-sm text-slate-700 font-bold py-3 md:px-8 px-4 my-3 hover:bg-slate-300 rounded"
-              @click="onClickPasskeyAdd"
-            >
-              <plus-icon class="w-6 h-6 inline-block -mt-1 mr-2" />
-              新增通行金鑰
-            </button>
-          </div>
-          <div
-            v-if="isShowRoles"
-            class="p-6 bg-white border-b border-gray-200"
-          >
-            <span class="text-gray-600">持有權限烙印：</span>
-            <ul class="list-disc ml-7">
-              <li
-                v-for="(i, j) in myProfile.roles"
-                :key="j"
-              >
-                {{ i }}
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div v-else>
-      {{ myProfile.isError ? "發生錯誤" : "載入中..." }}
-    </div>
-  </div>
+  <component
+    :is="currentTab" 
+    v-bind="stateProps"
+    @state="onState"
+    @status="onStatus"
+  />
   <toast-modal v-model="statusMessage" />
 </template>
 
 <script setup>
-import { ref, reactive, computed, onMounted } from 'vue';
+import { ref, computed } from "vue";
 
-import {
-  PlusIcon,
-} from "@heroicons/vue/24/solid";
+import ToastModal from "../components/ToastModal.vue";
 
-import { 
-  browserSupportsWebAuthn,
-  startRegistration,
- } from '@simplewebauthn/browser';
+import ManageProfileShow from "../components/ManageProfileShow.vue";
+import ManageProfileEdit from "../components/ManageProfileEdit.vue";
+import ManageProfileDelete from "../components/ManageProfileDelete.vue";
 
-import { useClient } from '../clients/sara.js';
+import ManagePasskeyShow from "../components/ManagePasskeyShow.vue";
 
-import ToastModal from '../components/ToastModal.vue';
+import ManageUpdateEmailRequest from "../components/ManageUpdateEmailRequest.vue";
+import ManageUpdateEmailVerify from "../components/ManageUpdateEmailVerify.vue";
 
-const {
-  VITE_HOME_INTE_HOST: homeInteHost,
-  VITE_SARA_TOKEN_NAME: saraTokenName,
-  VITE_SARA_GUARD_NAME: saraGuardName,
-} = import.meta.env;
+const stateName = ref("ManageProfileShow");
+const stateProps = ref(null);
 
-const statusMessage = ref('');
-const isDelete = ref(false);
-const isEdit = ref(false);
-const fieldDelete = ref({
-  confirm: '',
-});
-const fieldEdit = ref({
-  nickname: '',
-});
-const myProfile = reactive({
-  isLoaded: false,
-  isError: false,
-});
+const statusMessage = ref("");
 
-const client = useClient();
-
-const isShowRoles = computed(() => {
-  return Array.isArray(myProfile?.roles) && myProfile.roles.length;
-});
-
-const isShowPasskeyAdd = computed(() => {
-  return browserSupportsWebAuthn();
-});
-
-const onClickLogout = () => {
-  localStorage.removeItem(saraTokenName);
-  localStorage.removeItem(saraGuardName);
-  location.replace(homeInteHost);
+const tabs = {
+  ManageProfileShow,
+  ManageProfileEdit,
+  ManageProfileDelete,
+  ManagePasskeyShow,
+  ManageUpdateEmailRequest,
+  ManageUpdateEmailVerify,
 };
 
-const onClickDelete = () => {
-  isDelete.value = true;
-};
+const currentTab = computed(
+  () => tabs[stateName.value],
+);
 
-const onClickCancelDelete = () => {
-  isDelete.value = false;
-};
-
-const onSubmitDelete = async () => {
-  if (fieldDelete.value.confirm !== 'DELETE') {
-    statusMessage.value = "請輸入 DELETE 以確認刪除";
-    return;
-  }
-  await client.delete('users/me');
-  statusMessage.value = "刪除成功";
-  setTimeout(() => {
-    location.replace(homeInteHost);
-  }, 1300);
-};
-
-const onClickEdit = () => {
-  isEdit.value = true;
-};
-
-const onClickCancelEdit = () => {
-  isEdit.value = false;
-};
-
-const onSubmitEdit = async () => {
-  await client.put('users/me', {
-    json: {
-      nickname: fieldEdit.value.nickname,
-    }
+const onState = ({name, props}) => {
+  stateName.value = name;
+  stateProps.value = props ?? {};
+  requestAnimationFrame(() => {
+    window.scroll({
+      behavior: "smooth",
+      top: 0,
+    });
   });
-  statusMessage.value = "修改成功";
-  setTimeout(() => {
-    location.reload();
-  }, 1300);
 };
 
-const onClickPasskeyManage = (passkey) => {
-  statusMessage.value = `尚未實作：管理通行金鑰 ${passkey.label}`;
+const onStatus = ({message}) => {
+  statusMessage.value = message;
 };
-
-const onClickPasskeyAdd = async () => {
-  const response = await client.post("users/me/passkeys");
-  const {
-    session_id: sessionId,
-    session_options: sessionOptions,
-  } = await response.json();
-
-  let credential;
-  try {
-    credential = await startRegistration({
-      optionsJSON: sessionOptions,
-    });
-  } catch (e) {
-    console.error(e);
-    statusMessage.value = e.message;
-    return;
-  }
-
-  try {
-    await client.patch("users/me/passkeys", {
-      json: {
-        session_id: sessionId,
-        credential,
-      },
-    });
-    statusMessage.value = "通行金鑰新增成功";
-    setTimeout(() => {
-      location.reload();
-    }, 1300);
-  } catch (e) {
-    console.error(e);
-    statusMessage.value = e.message;
-    return;
-  }
-};
-
-onMounted(async () => {
-  try {
-    const response = await client.get("users/me");
-    const result = await response.json();
-
-    const {profile} = result;
-    Object.assign(myProfile, profile);
-    myProfile.isLoaded = true;
-
-    const {nickname} = profile;
-    fieldEdit.value.nickname = nickname;
-  } catch (e) {
-    console.warn(e.message);
-  }
-});
 </script>

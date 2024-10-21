@@ -12,11 +12,11 @@ const useSaraToken = (request) => {
     if (!saraToken || !guardToken) return;
 
     const tokenValue = [saraToken, guardToken].join("|");
-    request.headers.set('authorization', `XARA ${tokenValue}`);
+    request.headers.set("authorization", `XARA ${tokenValue}`);
 };
 
 const refreshSaraToken = (_request, _options, response) => {
-    const tokenValue = response.headers.get('x-sara-refresh');
+    const tokenValue = response.headers.get("x-sara-refresh");
     if (!tokenValue) return;
 
     const [saraToken, guardToken] = tokenValue.split("|", 2);

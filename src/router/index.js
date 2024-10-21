@@ -5,11 +5,9 @@ const {
 } = import.meta.env;
 
 import {
-  SARA_REFER_KEY_NAME,
-} from "../const.js";
-
-import {
-  saraReferTrigger
+  setReferUrl,
+  readUrlRefer,
+  safeUrlAssignSpecific,
 } from "../utils.js";
 
 const routes = [
@@ -18,16 +16,8 @@ const routes = [
     component: () => import("../views/HomeView.vue"),
   },
   {
-      path: '/manage',
-      component: () => import('../views/ManageView.vue'),
-  },
-  {
-      path: '/manage/email',
-      component: () => import('../views/ManageEmailView.vue'),
-  },
-  {
-      path: '/register',
-      component: () => import('../views/RegisterView.vue'),
+    path: "/manage",
+    component: () => import("../views/ManageView.vue"),
   },
   {
     path: "/:pathMatch(.*)*",
@@ -42,19 +32,19 @@ const router = createRouter({
 
 router.beforeEach((to, _, next) => {
   if (localStorage.getItem(saraTokenName)) {
-      saraReferTrigger((url) => {
-          goToSafeLocation(url);
-      });
-      if (to.path !== '/manage' && to.path !== '/manage/email') {
-          next('/manage');
-      }
+    readUrlRefer((url) => {
+      safeUrlAssignSpecific(url);
+    });
+    if (to.path !== "/manage" && to.path !== "/manage/email") {
+      next("/manage");
+    }
   } else {
-      saraReferTrigger((url) => {
-          sessionStorage.setItem(SARA_REFER_KEY_NAME, url);
-      });
-      if (to.path === '/manage') {
-          next('/');
-      }
+    readUrlRefer((url) => {
+      setReferUrl(url);
+    });
+    if (to.path === "/manage") {
+      next("/");
+    }
   }
   next();
 });

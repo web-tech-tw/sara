@@ -1,3 +1,4 @@
-export const SARA_SECRET_KEY_NAME = "safe_code";
-export const SARA_REFER_KEY_NAME = "sara_refer";
-export const SARA_REFER_URL_NAME = "refer";
+export const SARA_QUERY_KEY_REFER = "refer";
+
+export const SARA_STORAGE_KEY_REFER_URL = "saraReferUrl";
+export const SARA_STORAGE_KEY_LOGIN_HISTORY = "saraLoginEmailHistory";

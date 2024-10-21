@@ -1,4 +1,4 @@
-/** @type {import('tailwindcss').Config} */
+/** @type {import("tailwindcss").Config} */
 export default {
   content: [
     "./index.html",
@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       animation: {
-        fade: 'fadeIn .3s ease-in-out',
+        fade: "fadeIn .3s ease-in-out",
       },
       keyframes: {
         fadeIn: {

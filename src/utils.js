@@ -3,42 +3,78 @@ const {
 } = import.meta.env;
 
 import {
-    SARA_REFER_KEY_NAME,
-    SARA_REFER_URL_NAME,
+    SARA_QUERY_KEY_REFER,
+    SARA_STORAGE_KEY_REFER_URL,
+    SARA_STORAGE_KEY_LOGIN_HISTORY,
 } from "./const.js";
 
-function saraReferTrigger(callback) {
+function getLoginEmailHistory() {
+    const email = localStorage.getItem(SARA_STORAGE_KEY_LOGIN_HISTORY);
+    return email || "";
+}
+
+function setLoginEmailHistory(value) {
+    localStorage.setItem(SARA_STORAGE_KEY_LOGIN_HISTORY, value);
+}
+
+function clearLoginEmailHistory() {
+    localStorage.removeItem(SARA_STORAGE_KEY_LOGIN_HISTORY);
+}
+
+function getReferUrl() {
+    const url = sessionStorage.getItem(SARA_STORAGE_KEY_REFER_URL);
+    return url || homeInteHost;
+}
+
+function setReferUrl(url) {
+    sessionStorage.setItem(SARA_STORAGE_KEY_REFER_URL, url);
+}
+
+function clearReferUrl() {
+    sessionStorage.removeItem(SARA_STORAGE_KEY_REFER_URL);
+}
+
+function readUrlRefer(callback) {
     if (window.location.search) {
-        const params = new URLSearchParams(window.location.search);
-        if (params.has(SARA_REFER_URL_NAME)) {
-            callback(params.get(SARA_REFER_URL_NAME));
+        const queryParams = new URLSearchParams(window.location.search);
+        if (queryParams.has(SARA_QUERY_KEY_REFER)) {
+            callback(queryParams.get(SARA_QUERY_KEY_REFER));
         }
     }
 }
 
-function goToSafeLocation(url, replace = true) {
-    if (!isSafeRedirectUrl(url)) {
-        console.warn("Unsafe redirect url detected: " + url);
-        url = homeInteHost;
-        console.warn("Reject it");
-    }
-    if (replace) {
-        window.location.replace(url);
-    } else {
-        window.location.assign(url);
-    }
-}
-
-function isSafeRedirectUrl(url) {
+function isUrlSafe(url) {
     const targetUrl = new URL(url);
     const safeUrl = new URL(homeInteHost);
     return targetUrl.host === safeUrl.host;
 }
 
-function exitApplication() {
-    const url = sessionStorage.getItem(SARA_REFER_KEY_NAME) || homeInteHost;
-    setTimeout(() => goToSafeLocation(url), 500);
-    sessionStorage.removeItem(SARA_REFER_KEY_NAME);
+function safeUrlAssignSpecific(url) {
+    if (!isUrlSafe(url)) {
+        console.warn("Unsafe url detected: " + url);
+        url = homeInteHost;
+    }
+    window.location.assign(url);
 }
 
-export { saraReferTrigger, goToSafeLocation, isSafeRedirectUrl, exitApplication };
+function safeUrlAssignRefer() {
+    const url = getReferUrl();
+    clearReferUrl();
+
+    setTimeout(() => {
+        safeUrlAssignSpecific(url)
+    }, 500,
+    );
+}
+
+export {
+    getLoginEmailHistory,
+    setLoginEmailHistory,
+    clearLoginEmailHistory,
+    getReferUrl,
+    setReferUrl,
+    clearReferUrl,
+    readUrlRefer,
+    safeUrlAssignSpecific,
+    safeUrlAssignRefer,
+};
