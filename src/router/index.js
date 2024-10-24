@@ -16,6 +16,10 @@ const routes = [
     component: () => import("../views/HomeView.vue"),
   },
   {
+    path: "/debug",
+    component: () => import("../views/DebugView.vue"),
+  },
+  {
     path: "/manage",
     component: () => import("../views/ManageView.vue"),
   },
@@ -31,21 +35,31 @@ const router = createRouter({
 });
 
 router.beforeEach((to, _, next) => {
-  if (localStorage.getItem(saraTokenName)) {
-    readUrlRefer((url) => {
-      safeUrlAssignSpecific(url);
-    });
-    if (to.path !== "/manage" && to.path !== "/manage/email") {
-      next("/manage");
-    }
-  } else {
-    readUrlRefer((url) => {
-      setReferUrl(url);
-    });
-    if (to.path === "/manage") {
-      next("/");
-    }
+  const refer = readUrlRefer();
+  const saraToken = localStorage.getItem(saraTokenName);
+
+  const isRefer = !!refer;
+  const isLogged = !!saraToken;
+
+  if (isLogged && isRefer) {
+    safeUrlAssignSpecific(refer);
+    return;
   }
+
+  if (!isLogged && isRefer) {
+    setReferUrl(refer);
+  }
+
+  if (isLogged && to.path === "/") {
+    next("/manage");
+    return;
+  }
+
+  if (!isLogged && to.path === "/manage") {
+    next("/");
+    return;
+  }
+
   next();
 });
 

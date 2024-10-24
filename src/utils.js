@@ -34,13 +34,17 @@ function clearReferUrl() {
     sessionStorage.removeItem(SARA_STORAGE_KEY_REFER_URL);
 }
 
-function readUrlRefer(callback) {
-    if (window.location.search) {
-        const queryParams = new URLSearchParams(window.location.search);
-        if (queryParams.has(SARA_QUERY_KEY_REFER)) {
-            callback(queryParams.get(SARA_QUERY_KEY_REFER));
-        }
+function readUrlRefer() {
+    if (!window.location.search) {
+        return null;
     }
+
+    const queryParams = new URLSearchParams(window.location.search);
+    if (!queryParams.has(SARA_QUERY_KEY_REFER)) {
+        return null;
+    }
+
+    return queryParams.get(SARA_QUERY_KEY_REFER)
 }
 
 function isUrlSafe(url) {
