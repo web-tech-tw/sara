@@ -1,6 +1,6 @@
 <template>
   <div class="flex justify-center my-8 py-16">
-    <div class="flex flex-col mx-auto">
+    <div class="flex flex-col max-w-2xl mx-auto">
       <div class="px-6 py-4 bg-white border-b border-gray-200 font-bold">
         Passkey 通行金鑰 — {{ props.label }}
       </div>
@@ -24,6 +24,12 @@
           @click="onClickEdit"
         >
           修改
+        </button>
+        <button
+          class="bg-red-500 shadow-md text-sm text-white font-bold py-3 md:px-8 px-4 hover:bg-red-600 rounded mr-3"
+          @click="onClickDelete"
+        >
+          移除
         </button>
         <button
           class="bg-white-500 shadow-md text-sm text-black font-bold py-3 md:px-8 px-4 hover:bg-slate-100 rounded"
@@ -70,7 +76,7 @@ const props = defineProps({
   },
 });
 
-const emits = defineEmits(["state", "status"]);
+const emits = defineEmits(["state"]);
 
 const transports = computed(() => {
   if (!props.transports?.length) {
@@ -80,8 +86,22 @@ const transports = computed(() => {
 });
 
 const onClickEdit = () => {
-  emits("status", {
-    message: "尚未實作",
+  emits("state", {
+    name: "ManagePasskeyEdit",
+    props: {
+      id: props.id,
+      label: props.label,
+    },
+  });
+};
+
+const onClickDelete = () => {
+  emits("state", {
+    name: "ManagePasskeyDelete",
+    props: {
+      id: props.id,
+      label: props.label,
+    },
   });
 };
 

@@ -18,6 +18,8 @@ import ManageProfileEdit from "../components/ManageProfileEdit.vue";
 import ManageProfileDelete from "../components/ManageProfileDelete.vue";
 
 import ManagePasskeyShow from "../components/ManagePasskeyShow.vue";
+import ManagePasskeyEdit from "../components/ManagePasskeyEdit.vue";
+import ManagePasskeyDelete from "../components/ManagePasskeyDelete.vue";
 
 import ManageUpdateEmailRequest from "../components/ManageUpdateEmailRequest.vue";
 import ManageUpdateEmailVerify from "../components/ManageUpdateEmailVerify.vue";
@@ -32,6 +34,8 @@ const tabs = {
   ManageProfileEdit,
   ManageProfileDelete,
   ManagePasskeyShow,
+  ManagePasskeyEdit,
+  ManagePasskeyDelete,
   ManageUpdateEmailRequest,
   ManageUpdateEmailVerify,
 };
