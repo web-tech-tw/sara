@@ -16,39 +16,47 @@
       <p class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
         請保密您的金鑰，這是您的身份識別機密金鑰。
       </p>
-      <div class="py-4 text-base text-slate-900 sm:mt-5 sm:mx-auto md:mt-5 lg:mx-0">
-        Authorization:
-        <textarea
-          class="w-full h-32 border-none bg-transparent px-4 py-1 text-gray-900 outline-none rounded my-3 md:my-0 focus:ring"
-          :value="tokenContent"
-          disabled
-        />
-      </div>
-      <div class="mt-3 text-base text-slate-900 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
-        <input
-          id="is-with-guard"
-          v-model="isWithGuard"
-          class="mr-3"
-          type="checkbox"
+      <p
+        v-if="!isLogged"
+        class="py-4 text-base text-slate-900 sm:mt-5 sm:mx-auto md:mt-5 lg:mx-0"
+      >
+        您尚未登入，請先登入後再查看金鑰。
+      </p>
+      <div v-else>
+        <div class="py-4 text-base text-slate-900 sm:mt-5 sm:mx-auto md:mt-5 lg:mx-0">
+          Authorization:
+          <textarea
+            class="w-full h-32 border-none bg-transparent px-4 py-1 text-gray-900 outline-none rounded my-3 md:my-0 focus:ring"
+            :value="tokenContent"
+            disabled
+          />
+        </div>
+        <div class="mt-3 text-base text-slate-900 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+          <input
+            id="is-with-guard"
+            v-model="isWithGuard"
+            class="mr-3"
+            type="checkbox"
+          >
+          <label for="is-with-guard">
+            啟用 Xara Token
+          </label>
+        </div>
+        <p
+          v-show="isWithGuard"
+          class="mt-3 text-base text-amber-600 sm:mt-5 sm:text-lg sm:mx-auto md:mt-5 md:text-xl lg:mx-0"
         >
-        <label for="is-with-guard">
-          啟用 Xara Token
-        </label>
+          <span class="block xl:inline">⚠️ 警告：</span>
+          <span class="block xl:inline">Xara Token 是一種高度危險的金鑰，請勿隨意測試。</span>
+        </p>
+        <p
+          v-show="isWithGuard"
+          class="mt-3 text-base text-slate-900 sm:mt-5 sm:text-lg sm:mx-auto md:mt-5 md:text-xl lg:mx-0"
+        >
+          <span class="block xl:inline">（Xara Token 可以變更讀取所有帳號機密，甚至還能刪掉整個帳號）</span>
+          <span class="block xl:inline">（Xara Token 僅用於 Sara 系統自身）</span>
+        </p>
       </div>
-      <p
-        v-show="isWithGuard"
-        class="mt-3 text-base text-amber-600 sm:mt-5 sm:text-lg sm:mx-auto md:mt-5 md:text-xl lg:mx-0"
-      >
-        <span class="block xl:inline">⚠️ 警告：</span>
-        <span class="block xl:inline">Xara Token 是一種高度危險的金鑰，請勿隨意測試。</span>
-      </p>
-      <p
-        v-show="isWithGuard"
-        class="mt-3 text-base text-slate-900 sm:mt-5 sm:text-lg sm:mx-auto md:mt-5 md:text-xl lg:mx-0"
-      >
-        <span class="block xl:inline">（Xara Token 可以變更讀取所有帳號機密，甚至還能刪掉整個帳號）</span>
-        <span class="block xl:inline">（Xara Token 僅用於 Sara 系統自身）</span>
-      </p>
     </div>
   </div>
 </template>
@@ -64,6 +72,7 @@ const {
 const saraToken = localStorage.getItem(saraTokenName);
 const guardToken = localStorage.getItem(saraGuardName);
 
+const isLogged = !!saraToken;
 const isWithGuard = ref(false);
 
 const tokenType = computed(() => {
