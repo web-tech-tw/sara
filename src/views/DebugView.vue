@@ -10,7 +10,7 @@
           {{ tokenType }}
         </span>
       </h1>
-      <p class="text-base text-slate-900 sm:mx-auto lg:mx-0">
+      <p class="mt-3 text-base text-slate-900 sm:mx-auto lg:mx-0">
         請勿洩漏給任何人（包括家人），避免他們拿來做壞壞的事情（比如刷爆你的信用卡）。
       </p>
       <p class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
@@ -71,7 +71,7 @@ const tokenType = computed(() => {
 });
 
 const tokenContent = computed(() => {
-  const tokenPrefix = isWithGuard.value ? "Xara" : "Sara";
+  const tokenPrefix = isWithGuard.value ? "XARA" : "SARA";
 
   const xara = `${tokenPrefix} ${saraToken}|${guardToken}`;
   const sara = `${tokenPrefix} ${saraToken}`;
