@@ -3,7 +3,7 @@
     <div class="sm:text-center lg:text-left">
       <h2 class="text-2xl tracking-tight font-bold text-red-500">
         <span class="block xl:inline">⛔ 警示：本頁面僅作為開發用途</span>
-        <span class="block xl:inline">For debugging only</span>
+        <span class="block xl:inline xl:ml-3">For debugging only</span>
       </h2>
       <h1 class="mt-3 text-4xl tracking-tight font-bold text-gray-900">
         <span class="block xl:inline">
@@ -16,9 +16,10 @@
       <p class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
         請保密您的金鑰，這是您的身份識別機密金鑰。
       </p>
-      <div class="mt-3 text-base text-gray-500 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+      <div class="py-4 text-base text-slate-900 sm:mt-5 sm:mx-auto md:mt-5 lg:mx-0">
+        Authorization:
         <textarea
-          class="w-full border-none bg-transparent px-4 py-1 text-gray-900 outline-none rounded my-3 md:my-0 focus:ring"
+          class="w-full h-32 border-none bg-transparent px-4 py-1 text-gray-900 outline-none rounded my-3 md:my-0 focus:ring"
           :value="tokenContent"
           disabled
         />
@@ -34,11 +35,19 @@
           啟用 Xara Token
         </label>
       </div>
-      <p class="mt-3 text-base text-slate-900 sm:mt-5 sm:text-lg sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
+      <p
+        v-show="isWithGuard"
+        class="mt-3 text-base text-amber-600 sm:mt-5 sm:text-lg sm:mx-auto md:mt-5 md:text-xl lg:mx-0"
+      >
         <span class="block xl:inline">⚠️ 警告：</span>
         <span class="block xl:inline">Xara Token 是一種高度危險的金鑰，請勿隨意測試。</span>
-        <span class="block xl:inline">（它可以變更讀取所有帳號機密，甚至還能刪掉整個帳號）</span>
-        <span class="block xl:inline">（本金鑰僅用於 Sara 系統自身）</span>
+      </p>
+      <p
+        v-show="isWithGuard"
+        class="mt-3 text-base text-slate-900 sm:mt-5 sm:text-lg sm:mx-auto md:mt-5 md:text-xl lg:mx-0"
+      >
+        <span class="block xl:inline">（Xara Token 可以變更讀取所有帳號機密，甚至還能刪掉整個帳號）</span>
+        <span class="block xl:inline">（Xara Token 僅用於 Sara 系統自身）</span>
       </p>
     </div>
   </div>
@@ -62,7 +71,11 @@ const tokenType = computed(() => {
 });
 
 const tokenContent = computed(() => {
-  const xaraToken = `${saraToken}|${guardToken}`;
-  return isWithGuard.value ? xaraToken : saraToken;
+  const tokenPrefix = isWithGuard.value ? "Xara" : "Sara";
+
+  const xara = `${tokenPrefix} ${saraToken}|${guardToken}`;
+  const sara = `${tokenPrefix} ${saraToken}`;
+
+  return isWithGuard.value ? xara : sara;
 });
 </script>
