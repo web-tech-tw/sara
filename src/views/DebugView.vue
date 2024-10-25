@@ -31,6 +31,12 @@
             disabled
           />
         </div>
+        <div class="py-4 text-base text-slate-900 sm:mt-5 sm:mx-auto md:mt-5 lg:mx-0">
+          Token ID:
+          <code>
+            {{ tokenDetails.jti }}
+          </code>
+        </div>
         <div class="mt-3 text-base text-slate-900 sm:mt-5 sm:text-lg sm:max-w-xl sm:mx-auto md:mt-5 md:text-xl lg:mx-0">
           <input
             id="is-with-guard"
@@ -64,6 +70,8 @@
 <script setup>
 import { ref, computed } from "vue";
 
+import { jwtDecode } from "jwt-decode";
+
 const {
   VITE_SARA_TOKEN_NAME: saraTokenName,
   VITE_SARA_GUARD_NAME: saraGuardName,
@@ -86,5 +94,12 @@ const tokenContent = computed(() => {
   const sara = `${tokenPrefix} ${saraToken}`;
 
   return isWithGuard.value ? xara : sara;
+});
+
+const tokenDetails = computed(() => {
+  if (!saraToken) {
+    return {};
+  }
+  return jwtDecode(saraToken);
 });
 </script>
