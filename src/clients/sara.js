@@ -30,6 +30,10 @@ const revokeSaraToken = (_request, _options, response) => {
 
     localStorage.removeItem(saraTokenName);
     localStorage.removeItem(saraGuardName);
+
+    setTimeout(() => {
+        location.reload();
+    }, 3000);
 };
 
 const client = ky.create({
