@@ -2,13 +2,21 @@
   <app-header-normal-menu-item
     v-if="profile === null"
     name="登入"
-    @click="handleClick"
+    @click="onClick"
   />
   <app-header-normal-menu-item
     v-else
     :name="nickname"
-    @click="handleClick"
-  />
+    @click="onClick"
+  >
+    <template #prepend>
+      <img
+        :src="identicon"
+        :alt="nickname"
+        class="rounded-full w-8 h-8 mr-2"
+      >
+    </template>
+  </app-header-normal-menu-item>
 </template>
 
 <script setup>
@@ -27,7 +35,12 @@ const nickname = computed(() => {
     return nickname;
 });
 
-const handleClick = () => {
+const identicon = computed(() => {
+    const {avatar_hash: avatarHash} = profile;
+    return `https://api.gravatar.com/avatar/${avatarHash}?d=identicon`;
+});
+
+const onClick = () => {
   onClickSara(profile);
 };
 </script>

@@ -3,19 +3,19 @@
     v-if="profile === null"
     name="登入"
     icon="ArrowRightOnRectangleIcon"
-    @click="handleClick"
+    @click="onClick"
   />
   <app-header-mobile-menu-item
     v-else
     :name="nickname"
     :logo="avatarUrl"
-    @click="handleClick"
+    @click="onClick"
   >
     <template #prepend>
       <img
         :src="identicon"
         :alt="nickname"
-        class="rounded-full w-6 h-6"
+        class="rounded-full w-6 h-6 mr-4"
       >
     </template>
   </app-header-mobile-menu-item>
@@ -42,7 +42,7 @@ const identicon = computed(() => {
     return `https://api.gravatar.com/avatar/${avatarHash}?d=identicon`;
 });
 
-const handleClick = () => {
+const onClick = () => {
   onClickSara(profile);
 };
 </script>
