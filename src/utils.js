@@ -44,7 +44,7 @@ function readUrlRefer() {
         return null;
     }
 
-    return queryParams.get(SARA_QUERY_KEY_REFER)
+    return queryParams.get(SARA_QUERY_KEY_REFER);
 }
 
 function isUrlSafe(url) {
@@ -66,9 +66,8 @@ function safeUrlAssignRefer() {
     clearReferUrl();
 
     setTimeout(() => {
-        safeUrlAssignSpecific(url)
-    }, 500,
-    );
+        safeUrlAssignSpecific(url);
+    }, 500);
 }
 
 export {

@@ -7,4 +7,4 @@ const base = process.env.BASE_URL || "/";
 export default defineConfig({
   base,
   plugins: [vue()],
-})
+});

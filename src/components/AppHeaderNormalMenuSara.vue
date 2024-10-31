@@ -25,7 +25,7 @@ const profile = useProfile();
 const nickname = computed(() => {
     const { nickname } = profile;
     return nickname;
-})
+});
 
 const handleClick = () => {
     location.assign(saraInteHost);
