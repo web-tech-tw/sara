@@ -51,7 +51,7 @@
 <script setup>
 import { inject, watch } from "vue";
 
-import { XMarkIcon } from "@heroicons/vue/24/solid"
+import { XMarkIcon } from "@heroicons/vue/24/outline"
 
 import AppHeaderMobileMenuItem from "./AppHeaderMobileMenuItem.vue"
 import AppHeaderMobileMenuDropdown from "./AppHeaderMobileMenuDropdown.vue"

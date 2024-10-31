@@ -88,7 +88,7 @@ import { reactive, computed, onMounted } from "vue";
 
 import {
     PlusIcon,
-} from "@heroicons/vue/24/solid";
+} from "@heroicons/vue/24/outline";
 
 import {
     browserSupportsWebAuthn,
