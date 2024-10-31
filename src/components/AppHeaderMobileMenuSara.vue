@@ -8,9 +8,17 @@
   <app-header-mobile-menu-item
     v-else
     :name="nickname"
-    icon="UserIcon"
+    :logo="avatarUrl"
     @click="handleClick"
-  />
+  >
+    <template #prepend>
+      <img
+        :src="identicon"
+        :alt="nickname"
+        class="rounded-full w-6 h-6"
+      >
+    </template>
+  </app-header-mobile-menu-item>
 </template>
 
 <script setup>
@@ -18,9 +26,9 @@ import { computed } from "vue";
 
 import AppHeaderMobileMenuItem from "./AppHeaderMobileMenuItem.vue";
 
-import { useProfile } from "../plugins/profile.js";
+import { onClickSara } from "./AppHeaderMenuData.js";
 
-const saraInteHost = import.meta.env.VITE_SARA_INTE_HOST;
+import { useProfile } from "../plugins/profile.js";
 
 const profile = useProfile();
 
@@ -29,7 +37,12 @@ const nickname = computed(() => {
     return nickname;
 });
 
+const identicon = computed(() => {
+    const {avatar_hash: avatarHash} = profile;
+    return `https://api.gravatar.com/avatar/${avatarHash}?d=identicon`;
+});
+
 const handleClick = () => {
-    location.assign(saraInteHost);
-}
+  onClickSara(profile);
+};
 </script>

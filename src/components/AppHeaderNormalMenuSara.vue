@@ -16,9 +16,9 @@ import { computed } from "vue";
 
 import AppHeaderNormalMenuItem from "./AppHeaderNormalMenuItem.vue";
 
-import { useProfile } from "../plugins/profile.js";
+import { onClickSara } from "./AppHeaderMenuData.js";
 
-const saraInteHost = import.meta.env.VITE_SARA_INTE_HOST;
+import { useProfile } from "../plugins/profile.js";
 
 const profile = useProfile();
 
@@ -28,6 +28,6 @@ const nickname = computed(() => {
 });
 
 const handleClick = () => {
-    location.assign(saraInteHost);
-}
+  onClickSara(profile);
+};
 </script>
