@@ -14,7 +14,7 @@
         您好，{{ myProfile.nickname }}，這裡是您的個人資料：
       </div>
       <div class="px-6 py-4 bg-white border-b border-gray-200 md:flex">
-        <div class="item-center px-3 mb-3 md:mb-0">
+        <div class="px-3 mb-3 md:mb-0">
           <img
             :src="identicon"
             :alt="myProfile.nickname"
@@ -157,6 +157,7 @@ const onClickEdit = () => {
         name: "ManageProfileEdit",
         props: {
             nickname: myProfile.nickname,
+            avatarHash: myProfile.avatar_hash,
         },
     });
 };

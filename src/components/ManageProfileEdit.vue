@@ -7,6 +7,14 @@
             修改個人資料：
           </div>
           <div class="p-6 bg-white border-b border-gray-200">
+            <div class="px-3 mb-3">
+              <img
+                :src="identicon"
+                :alt="fields.nickname"
+                class="rounded-full w-18 h-18 mx-auto"
+                title="來自 Gravatar 的大頭貼"
+              >
+            </div>
             <div class="rounded bg-white md:flex">
               <label
                 class="w-full py-1 text-gray-600 md:w-16"
@@ -27,12 +35,31 @@
           <div class="p-6 bg-white border-b border-gray-200">
             若要修改電子郵件地址，請點
             <span
-              class="cursor-pointer text-sky-500 hover:text-sky-700"
+              class="cursor-pointer text-sky-600 hover:text-sky-500"
               @click="onClickUpdateEmail"
             >
               此處
             </span>
             。
+            <div class="text-sm text-gray-600 mt-1">
+              本系統儲存你的電子郵件地址僅供識別使用，不會用於任何廣告或行銷用途。該資訊為存取本帳號的唯一識別方法，請務必使用最常用的電子郵件地址，以免遺失帳號存取權限。
+            </div>
+          </div>
+          <div class="p-6 bg-white border-b border-gray-200">
+            若要修改大頭貼，須前往
+            <span
+              class="cursor-pointer text-sky-600 hover:text-sky-500"
+              @click="onClickUpdateAvatar"
+            >
+              Gravatar.com
+            </span>
+            。
+            <div class="text-sm text-gray-600 mt-1">
+              我們使用 Gravatar 服務來提供大頭貼，您可以在 Gravatar 網站上使用您的電子郵件地址註冊帳號，並上傳您的大頭貼。
+            </div>
+            <div class="text-sm text-gray-600 mt-1">
+              本系統不會儲存您的大頭貼，而是透過去識別化技術提供對應大頭貼的圖片網址。
+            </div>
           </div>
           <div class="p-6 bg-white border-gray-200 text-right">
             <button
@@ -68,6 +95,10 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  avatarHash: {
+    type: String,
+    required: true,
+  },
 });
 
 const emits = defineEmits(["state", "status"]);
@@ -83,10 +114,19 @@ const isDisabled = computed(() => {
   return isLoad.value || isDone.value;
 });
 
+const identicon = computed(() => {
+    const {avatarHash} = props;
+    return `https://api.gravatar.com/avatar/${avatarHash}?d=identicon`;
+});
+
 const onClickUpdateEmail = () => {
   emits("state", {
     name: "ManageUpdateEmailRequest",
   });
+};
+
+const onClickUpdateAvatar = () => {
+  window.open("https://gravatar.com");
 };
 
 const onClickCancel = () => {
