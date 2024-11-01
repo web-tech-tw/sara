@@ -18,7 +18,7 @@
           <img
             :src="identicon"
             :alt="myProfile.nickname"
-            class="rounded-full w-18 h-18 mx-auto"
+            class="rounded-full w-32 h-32 mx-auto md:w-16 md:h-16"
             title="來自 Gravatar 的大頭貼"
           >
         </div>
