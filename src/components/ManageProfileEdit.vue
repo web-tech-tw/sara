@@ -116,7 +116,7 @@ const isDisabled = computed(() => {
 
 const identicon = computed(() => {
     const {avatarHash} = props;
-    return `https://api.gravatar.com/avatar/${avatarHash}?d=identicon`;
+    return `https://api.gravatar.com/avatar/${avatarHash}?d=identicon&s=200`;
 });
 
 const onClickUpdateEmail = () => {

@@ -131,7 +131,7 @@ const isShowPasskeyAdd = computed(() => {
 
 const identicon = computed(() => {
     const {avatar_hash: avatarHash} = myProfile;
-    return `https://api.gravatar.com/avatar/${avatarHash}?d=identicon`;
+    return `https://api.gravatar.com/avatar/${avatarHash}?d=identicon&s=200`;
 });
 
 const onClickLogout = () => {
