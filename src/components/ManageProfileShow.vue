@@ -13,10 +13,20 @@
       <div class="px-6 py-4 bg-white border-b border-gray-200 font-bold">
         您好，{{ myProfile.nickname }}，這裡是您的個人資料：
       </div>
-      <div class="p-6 bg-white border-b border-gray-200">
-        <span class="text-gray-600">暱稱：</span>{{ myProfile.nickname }}<br>
-        <span class="text-gray-600">電子郵件地址：</span>{{ myProfile.email }}<br>
-        <span class="text-gray-600">Sara 系統使用者識別碼：</span>{{ myProfile._id }}
+      <div class="px-6 py-4 bg-white border-b border-gray-200 md:flex">
+        <div class="item-center px-3 mb-3 md:mb-0">
+          <img
+            :src="identicon"
+            :alt="myProfile.nickname"
+            class="rounded-full w-18 h-18 mx-auto"
+            title="來自 Gravatar 的大頭貼"
+          >
+        </div>
+        <div class="ml-3">
+          <span class="text-gray-600">暱稱：</span>{{ myProfile.nickname }}<br>
+          <span class="text-gray-600">電子郵件地址：</span>{{ myProfile.email }}<br>
+          <span class="text-gray-600">Sara 系統使用者識別碼：</span>{{ myProfile._id }}
+        </div>
       </div>
       <div class="p-6 bg-white border-b border-gray-200 text-right">
         <button
@@ -117,6 +127,11 @@ const isShowRoles = computed(() => {
 
 const isShowPasskeyAdd = computed(() => {
     return browserSupportsWebAuthn();
+});
+
+const identicon = computed(() => {
+    const {avatar_hash: avatarHash} = myProfile;
+    return `https://api.gravatar.com/avatar/${avatarHash}?d=identicon`;
 });
 
 const onClickLogout = () => {
