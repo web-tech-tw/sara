@@ -6,7 +6,7 @@ const {
     VITE_SARA_GUARD_NAME: saraGuardName,
 } = import.meta.env;
 
-const useSaraToken = (request) => {
+const readSaraToken = (request) => {
     const saraToken = localStorage.getItem(saraTokenName);
     const guardToken = localStorage.getItem(saraGuardName);
     if (!saraToken || !guardToken) return;
@@ -40,7 +40,7 @@ const client = ky.create({
     prefixUrl: baseUrl,
     hooks: {
         beforeRequest: [
-            useSaraToken,
+            readSaraToken,
         ],
         afterResponse: [
             refreshSaraToken,
