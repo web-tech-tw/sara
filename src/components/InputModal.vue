@@ -45,12 +45,12 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from "vue";
+import {ref, computed, onMounted, onUnmounted} from "vue";
 
 import {
   ArrowRightCircleIcon,
   CheckCircleIcon,
-} from "@heroicons/vue/24/outline"
+} from "@heroicons/vue/24/outline";
 
 import LoadingCircleIcon from "./LoadingCircleIcon.vue";
 

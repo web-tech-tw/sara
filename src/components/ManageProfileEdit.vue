@@ -82,9 +82,9 @@
     </div>
   </div>
 </template>
-  
+
 <script setup>
-import { ref, reactive, computed } from "vue";
+import {ref, reactive, computed} from "vue";
 
 import {
   useClient,
@@ -115,8 +115,8 @@ const isDisabled = computed(() => {
 });
 
 const identicon = computed(() => {
-    const {avatarHash} = props;
-    return `https://api.gravatar.com/avatar/${avatarHash}?d=identicon&s=200`;
+  const {avatarHash} = props;
+  return `https://api.gravatar.com/avatar/${avatarHash}?d=identicon&s=200`;
 });
 
 const onClickUpdateEmail = () => {

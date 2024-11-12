@@ -30,9 +30,9 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted, provide } from "vue";
+import {ref, computed, onMounted, onUnmounted, provide} from "vue";
 
-import { Bars4Icon } from "@heroicons/vue/24/outline"
+import {Bars4Icon} from "@heroicons/vue/24/outline";
 
 import {
   title,
@@ -58,12 +58,12 @@ const isMenuItemExist = computed(() => {
 const onClickMobileMenuBtnOpen = () => {
   isMobileMenuOpened.value = true;
   parentMenuState.value = true;
-}
+};
 
 const onClickMobileMenuBtnClose = () => {
   isMobileMenuOpened.value = false;
   parentMenuState.value = false;
-}
+};
 
 const onDocumentClick = (e) => {
   if (!document.querySelector(".app-header").contains(e.target)) {

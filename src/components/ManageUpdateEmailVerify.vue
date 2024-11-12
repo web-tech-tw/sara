@@ -45,9 +45,9 @@
     </div>
   </div>
 </template>
-  
+
 <script setup>
-import { ref, computed } from "vue";
+import {ref, computed} from "vue";
 
 import {
   useClient,
@@ -97,7 +97,7 @@ const requestSubmit = async (value) => {
     json: {
       session_id: props.sessionId,
       code: value,
-    }
+    },
   });
 
   isDone.value = true;

@@ -68,9 +68,9 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import {ref, computed} from "vue";
 
-import { jwtDecode } from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 
 const {
   VITE_SARA_TOKEN_NAME: saraTokenName,

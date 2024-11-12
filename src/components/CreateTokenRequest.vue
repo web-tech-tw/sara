@@ -59,7 +59,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from "vue";
+import {computed, onMounted, ref} from "vue";
 
 import {
   CheckCircleIcon,
@@ -141,7 +141,7 @@ const requestPasskey = async (value) => {
     const response = await client.post("tokens/passkeys", {
       json: {
         email: value,
-      }
+      },
     });
     const {
       session_id: passkeySessionId,
@@ -155,7 +155,7 @@ const requestPasskey = async (value) => {
       json: {
         session_id: passkeySessionId,
         credential,
-      }
+      },
     });
 
     isDone.value = true;
@@ -173,7 +173,7 @@ const requestPasskey = async (value) => {
 
     isUsingPasskey.value = false;
   }
-}
+};
 
 const requestSubmit = async (value) => {
   const client = useClient();

@@ -94,141 +94,141 @@
 </template>
 
 <script setup>
-import { reactive, computed, onMounted } from "vue";
+import {reactive, computed, onMounted} from "vue";
 
 import {
-    PlusIcon,
+  PlusIcon,
 } from "@heroicons/vue/24/outline";
 
 import {
-    browserSupportsWebAuthn,
-    startRegistration,
+  browserSupportsWebAuthn,
+  startRegistration,
 } from "@simplewebauthn/browser";
 
-import { useClient } from "../clients/sara.js";
+import {useClient} from "../clients/sara.js";
 
 const {
-    VITE_HOME_INTE_HOST: homeInteHost,
-    VITE_SARA_TOKEN_NAME: saraTokenName,
-    VITE_SARA_GUARD_NAME: saraGuardName,
+  VITE_HOME_INTE_HOST: homeInteHost,
+  VITE_SARA_TOKEN_NAME: saraTokenName,
+  VITE_SARA_GUARD_NAME: saraGuardName,
 } = import.meta.env;
 
 const emits = defineEmits(["state", "status"]);
 
 const myProfile = reactive({
-    passkeys: [],
-    isLoad: true,
-    isDead: false,
+  passkeys: [],
+  isLoad: true,
+  isDead: false,
 });
 
 const isShowRoles = computed(() => {
-    return Array.isArray(myProfile?.roles) && myProfile.roles.length;
+  return Array.isArray(myProfile?.roles) && myProfile.roles.length;
 });
 
 const isShowPasskeyAdd = computed(() => {
-    return browserSupportsWebAuthn();
+  return browserSupportsWebAuthn();
 });
 
 const identicon = computed(() => {
-    const {avatar_hash: avatarHash} = myProfile;
-    return `https://api.gravatar.com/avatar/${avatarHash}?d=identicon&s=200`;
+  const {avatar_hash: avatarHash} = myProfile;
+  return `https://api.gravatar.com/avatar/${avatarHash}?d=identicon&s=200`;
 });
 
 const onClickLogout = () => {
-    localStorage.removeItem(saraTokenName);
-    localStorage.removeItem(saraGuardName);
-    location.replace(homeInteHost);
+  localStorage.removeItem(saraTokenName);
+  localStorage.removeItem(saraGuardName);
+  location.replace(homeInteHost);
 };
 
 const onClickDelete = () => {
-    emits("state", {
-        name: "ManageProfileDelete",
-        props: {
-            id: myProfile._id,
-            nickname: myProfile.nickname,
-            email: myProfile.email,
-            roles: myProfile.roles,
-        },
-    });
+  emits("state", {
+    name: "ManageProfileDelete",
+    props: {
+      id: myProfile._id,
+      nickname: myProfile.nickname,
+      email: myProfile.email,
+      roles: myProfile.roles,
+    },
+  });
 };
 
 const onClickEdit = () => {
-    emits("state", {
-        name: "ManageProfileEdit",
-        props: {
-            nickname: myProfile.nickname,
-            avatarHash: myProfile.avatar_hash,
-        },
-    });
+  emits("state", {
+    name: "ManageProfileEdit",
+    props: {
+      nickname: myProfile.nickname,
+      avatarHash: myProfile.avatar_hash,
+    },
+  });
 };
 
 const onClickPasskeyManage = (passkey) => {
-    emits("state", {
-        name: "ManagePasskeyShow",
-        props: passkey,
-    });
+  emits("state", {
+    name: "ManagePasskeyShow",
+    props: passkey,
+  });
 };
 
 const onClickPasskeyAdd = async () => {
-    const client = useClient();
+  const client = useClient();
 
-    const response = await client.post("users/me/passkeys");
-    const {
+  const response = await client.post("users/me/passkeys");
+  const {
+    session_id: sessionId,
+    session_options: sessionOptions,
+  } = await response.json();
+
+  let credential;
+  try {
+    credential = await startRegistration({
+      optionsJSON: sessionOptions,
+    });
+  } catch (e) {
+    console.error(e);
+    emits("status", {
+      message: "通行金鑰新增失敗",
+    });
+    return;
+  }
+
+  try {
+    await client.patch("users/me/passkeys", {
+      json: {
         session_id: sessionId,
-        session_options: sessionOptions,
-    } = await response.json();
-
-    let credential;
-    try {
-        credential = await startRegistration({
-            optionsJSON: sessionOptions,
-        });
-    } catch (e) {
-        console.error(e);
-        emits("status", {
-            message: "通行金鑰新增失敗",
-        });
-        return;
-    }
-
-    try {
-        await client.patch("users/me/passkeys", {
-            json: {
-                session_id: sessionId,
-                credential,
-            },
-        });
-        emits("status", {
-            message: "通行金鑰新增成功",
-        });
-        setTimeout(() => {
-            location.reload();
-        }, 1300);
-    } catch (e) {
-        console.error(e);
-        emits("status", {
-            message: "通行金鑰新增失敗",
-        });
-        return;
-    }
+        credential,
+      },
+    });
+    emits("status", {
+      message: "通行金鑰新增成功",
+    });
+    setTimeout(() => {
+      location.reload();
+    }, 1300);
+  } catch (e) {
+    console.error(e);
+    emits("status", {
+      message: "通行金鑰新增失敗",
+    });
+    return;
+  }
 };
 
 onMounted(async () => {
-    const client = useClient();
+  const client = useClient();
 
-    try {
-        const response = await client.get("users/me");
-        const result = await response.json();
+  try {
+    const response = await client.get("users/me");
+    const result = await response.json();
 
-        const { profile } = result;
-        Object.assign(myProfile, profile);
+    const {profile} = result;
+    Object.assign(myProfile, profile);
 
-        requestAnimationFrame(() => {
-            myProfile.isLoad = false;
-        });
-    } catch (e) {
-        console.warn(e.message);
-        myProfile.isDead = true;
-    }
+    requestAnimationFrame(() => {
+      myProfile.isLoad = false;
+    });
+  } catch (e) {
+    console.warn(e.message);
+    myProfile.isDead = true;
+  }
 });
 </script>

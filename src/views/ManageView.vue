@@ -1,6 +1,6 @@
 <template>
   <component
-    :is="currentTab" 
+    :is="currentTab"
     v-bind="stateProps"
     @state="onState"
     @status="onStatus"
@@ -9,7 +9,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import {ref, computed} from "vue";
 
 import ToastModal from "../components/ToastModal.vue";
 

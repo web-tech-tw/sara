@@ -47,7 +47,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import {ref, computed} from "vue";
 
 import {
   useClient,
@@ -72,7 +72,7 @@ const requestSubmit = async (value) => {
   const client = useClient();
   const response = await client.put("users/me/email", {
     json: {
-      email: value
+      email: value,
     },
   });
   const result = await response.json();
@@ -91,7 +91,7 @@ const requestSubmit = async (value) => {
 };
 
 const onSubmit = async () => {
-  const { value } = inputContent;
+  const {value} = inputContent;
   if (!value) {
     emits("status", {
       message: "請輸入新的電子郵件地址",

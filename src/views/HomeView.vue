@@ -1,6 +1,6 @@
 <template>
   <component
-    :is="currentTab" 
+    :is="currentTab"
     v-bind="stateProps"
     @state="onState"
     @status="onStatus"
@@ -9,7 +9,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import {ref, computed} from "vue";
 
 import CreateTokenRequest from "../components/CreateTokenRequest.vue";
 import CreateTokenEmpty from "../components/CreateTokenEmpty.vue";

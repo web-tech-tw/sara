@@ -1,52 +1,52 @@
-import ky from "ky"
+import ky from "ky";
 
 const {
-    VITE_SARA_RECV_HOST: baseUrl,
-    VITE_SARA_TOKEN_NAME: saraTokenName,
-    VITE_SARA_GUARD_NAME: saraGuardName,
+  VITE_SARA_RECV_HOST: baseUrl,
+  VITE_SARA_TOKEN_NAME: saraTokenName,
+  VITE_SARA_GUARD_NAME: saraGuardName,
 } = import.meta.env;
 
 const readSaraToken = (request) => {
-    const saraToken = localStorage.getItem(saraTokenName);
-    const guardToken = localStorage.getItem(saraGuardName);
-    if (!saraToken || !guardToken) return;
+  const saraToken = localStorage.getItem(saraTokenName);
+  const guardToken = localStorage.getItem(saraGuardName);
+  if (!saraToken || !guardToken) return;
 
-    const tokenValue = [saraToken, guardToken].join("|");
-    request.headers.set("authorization", `XARA ${tokenValue}`);
+  const tokenValue = [saraToken, guardToken].join("|");
+  request.headers.set("authorization", `XARA ${tokenValue}`);
 };
 
 const refreshSaraToken = (_request, _options, response) => {
-    const tokenValue = response.headers.get("x-sara-refresh");
-    if (!tokenValue) return;
+  const tokenValue = response.headers.get("x-sara-refresh");
+  if (!tokenValue) return;
 
-    const [saraToken, guardToken] = tokenValue.split("|", 2);
-    localStorage.setItem(saraTokenName, saraToken);
-    localStorage.setItem(saraGuardName, guardToken);
+  const [saraToken, guardToken] = tokenValue.split("|", 2);
+  localStorage.setItem(saraTokenName, saraToken);
+  localStorage.setItem(saraGuardName, guardToken);
 };
 
 const revokeSaraToken = (_request, _options, response) => {
-    const tokenStatus = response.status;
-    if (tokenStatus !== 401) return;
+  const tokenStatus = response.status;
+  if (tokenStatus !== 401) return;
 
-    localStorage.removeItem(saraTokenName);
-    localStorage.removeItem(saraGuardName);
+  localStorage.removeItem(saraTokenName);
+  localStorage.removeItem(saraGuardName);
 
-    setTimeout(() => {
-        location.reload();
-    }, 3000);
+  setTimeout(() => {
+    location.reload();
+  }, 3000);
 };
 
 const client = ky.create({
-    prefixUrl: baseUrl,
-    hooks: {
-        beforeRequest: [
-            readSaraToken,
-        ],
-        afterResponse: [
-            refreshSaraToken,
-            revokeSaraToken,
-        ],
-    }
+  prefixUrl: baseUrl,
+  hooks: {
+    beforeRequest: [
+      readSaraToken,
+    ],
+    afterResponse: [
+      refreshSaraToken,
+      revokeSaraToken,
+    ],
+  },
 });
 
 export const useClient = () => client;

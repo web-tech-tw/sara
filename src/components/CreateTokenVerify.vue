@@ -34,7 +34,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import {ref} from "vue";
 
 import {
   useClient,
@@ -93,7 +93,7 @@ const requestSubmit = async (value) => {
       json: {
         session_id: props.sessionId,
         code: value,
-      }
+      },
     });
 
     isDone.value = true;
@@ -122,5 +122,5 @@ const onSubmit = async (value) => {
   isLoad.value = true;
   await requestSubmit(value);
   isLoad.value = false;
-}
+};
 </script>

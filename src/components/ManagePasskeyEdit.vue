@@ -43,7 +43,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, computed } from "vue";
+import {ref, reactive, computed} from "vue";
 
 import {
   useClient,

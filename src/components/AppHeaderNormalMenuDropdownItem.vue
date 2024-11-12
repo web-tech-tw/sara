@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-import DynamicHeroIcon from "./DynamicHeroIcon.vue"
+import DynamicHeroIcon from "./DynamicHeroIcon.vue";
 
 const props = defineProps({
   name: {
