@@ -39,7 +39,7 @@
       {{ props.inputHistory }}
     </button>
     <p class="text-base mt-2">
-      {{ props.description }}
+      {{ props.inputDescription }}
     </p>
   </div>
 </template>
