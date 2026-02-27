@@ -2,4 +2,5 @@
     try_files {path} /index.html
     root * /app
     file_server
+    log
 }
